@@ -22,7 +22,7 @@ const courseSchema = new Schema({
         required:true
 
     },
-    instructors:{
+    subject:{
         type:String,
         required:true
 
@@ -39,7 +39,10 @@ const courseSchema = new Schema({
     discount:{
         type:Number,
         
-
+    },
+    rating:{
+        type:Number,
+        
     }
 
 }, { timestamps: true })
