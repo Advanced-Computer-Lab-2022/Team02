@@ -1,10 +1,12 @@
 const express=require('express')
 const router=express.Router()
-const addCourse = require ('../controllers/courseController.js')
+const Course = require ('../controllers/courseController.js')
 
 
 
-router.post('/',addCourse)
+
+router.post('/Search',Course.Search)
+router.post('/filterSubject',Course.filterSubject)
 
 
 module.exports=router
