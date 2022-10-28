@@ -24,4 +24,4 @@ const administratorSchema = new Schema({
 
 },{timestamps:true})
 
-module.exports=mongoose.Schema('administrators',administratorSchema)
+module.exports=mongoose.model('administrators',administratorSchema)

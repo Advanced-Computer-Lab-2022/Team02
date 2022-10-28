@@ -36,4 +36,4 @@ const instructorSchema = new Schema({
 
 },{timestamps:true})
 
-module.exports=mongoose.Schema('instructors',instructorSchema)
+module.exports=mongoose.model('instructors',instructorSchema)
