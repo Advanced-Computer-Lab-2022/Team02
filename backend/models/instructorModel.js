@@ -23,10 +23,10 @@ const instructorSchema = new Schema({
         type:String,
         
     },
-    courses:{
+   /* courses:{
         type:[String]
 
-    }
+    }*/
 
 
 

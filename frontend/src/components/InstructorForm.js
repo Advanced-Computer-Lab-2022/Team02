@@ -1,0 +1,61 @@
+import { useState } from "react"
+const InstructorForm = () => {
+    const [username,SetUsername] = useState('')
+    const [password,SetPassword] = useState('')
+    const [error,SetError] = useState(null)
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const instructor = {username, password}
+
+        const response = await fetch('Admin/addInstructor', {
+            method: 'POST',
+            body:JSON.stringify(instructor),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const json= await response.json()
+
+        if (!response.ok){
+            SetError(json.error)
+        }
+        if (response.ok){
+            SetUsername('')
+            SetPassword('')
+            SetError(null)
+            console.log('new Instructor added', json)
+        }
+    }
+
+    return(
+        <form className="create" onSubmit={handleSubmit}>
+            <h3>Add a New Instructor</h3>
+
+            <label>Instructor Username:</label>
+            <input
+                type="text"
+                onChange={(e)=> SetUsername(e.target.value)}
+                value={username}
+            />
+
+            <label>Password:</label>
+            <input
+                type="text"
+                onChange={(e)=> SetPassword(e.target.value)}
+                value={password}
+            />
+
+            <button>Add Instructor</button>
+            {error && <div className="error">{error}</div>}
+        </form>
+
+        
+
+    )
+}
+
+
+export default InstructorForm

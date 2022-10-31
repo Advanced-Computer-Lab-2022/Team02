@@ -12,10 +12,10 @@ function addAdministrator(req,res)
 
     return Admin.create(admin).then(function(users)
     {
-        res.send('success')
+        res.send(JSON)
     },function(err)
     {
-        res.send('error 12')
+        res.send(JSON)
     })
 
 
@@ -28,10 +28,10 @@ function addInstructor(req,res){
 
     return Instructor.create(instruct).then(function(users)
     {
-        res.send('success')
+        res.send(JSON)
     },function(err)
     {
-        res.send('error 12')
+        res.send(JSON)
     })
 
 }
@@ -43,10 +43,10 @@ function addCorporateTrainee(req,res){
     
     return CorporateTrainee.create(CorpTrainee).then(function(users)
     {
-        res.send('success')
+        res.send(JSON)
     },function(err)
     {
-        res.send('error 12')
+        res.send(JSON)
     })
 
 }
