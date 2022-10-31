@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Navbar from './components/Navbar'
 import Admin from './pages/Admin'
 import Courses from './pages/Courses'
+import Corporate from './pages/Corporate'
+import HomePage from './pages/HomePage'
 
 
 function App() {
@@ -14,9 +16,14 @@ function App() {
       <div className="pages">
         <Routes>
           <Route
-          path="/Course"
+          //indvidual and guest
+          path="/inTrainee"
           element={<Courses/>}
           />
+            <Route
+         path='/'
+         element= {<HomePage/>}
+            />
           <Route
             path="/Instructor"
             element={<Home/>}
@@ -24,6 +31,10 @@ function App() {
           <Route
             path="/admin"
             element={<Admin/>}
+          />
+          <Route
+            path="/corTrainee"
+            element={<Corporate/>}
           />
         </Routes>
       </div>

@@ -1,4 +1,4 @@
-const AdministratorDetails = ({ instructor }) => {
+const AdministratorDetails = ({ administrator }) => {
     return(
         <div className="administrator-details">
             <h4>{administrator.username}</h4>
