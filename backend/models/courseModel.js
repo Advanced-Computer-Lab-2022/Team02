@@ -31,7 +31,7 @@ const courseSchema = new Schema({
         type:Number,
         required:true
     },
-    prices:{
+    price:{
         type:Number,
         required:true
 
@@ -43,6 +43,10 @@ const courseSchema = new Schema({
     rating:{
         type:Number,
         
+    },
+    instructorID:{
+        type:String,
+        required:true
     }
 
 }, { timestamps: true })

@@ -2,17 +2,20 @@ require('dotenv').config()
 const express= require('express');
 const AdminRouter= require('./routes/administrator')
 const mongoose=require('mongoose')
-const CourseRouter= require('./routes/courses')
 const InstructRouter= require('./routes/instructor')
+const InTraineeRouter= require('./routes/individualTrainee')
+const corTraineeRouter= require('./routes/corporateTrainee')
 
 const app= express();
 
 app.use(express.json())
 
 
-app.use('/',AdminRouter)
-app.use('/Course',CourseRouter)
+app.use('/Admin',AdminRouter)
 app.use('/Instructor',InstructRouter)
+app.use('/indTrainee',InTraineeRouter)
+app.use('/corTrainee',corTraineeRouter)
+app.use('/guest',InTraineeRouter)
 
 
 mongoose.connect(process.env.MONGO_URI2)
