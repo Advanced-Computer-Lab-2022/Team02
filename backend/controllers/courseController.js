@@ -6,6 +6,7 @@ const Search = async (req,res) =>
 {
         var courses
         const Search  = req.body.Search
+        console.log(Search);
 
             courses = await Course.find().or([{title:{ $regex: Search, $options: "i"}},{subject:{ $regex: Search, $options: "i"}},{instructorID:{ $regex: Search, $options: "i"}}])
             console.log(JSON.stringify(Search))
@@ -62,7 +63,7 @@ const filterSubjectRating = async (req,res) =>
 
 const viewCourses = async (req,res) =>
 {
-    const courses = await Course.find({},{_id:0,title:1,hours:1,rating:1,price:1})
+    const courses = await Course.find({},{_id:0,title:1,hours:1,rating:1,price:1,subtitle:1,exercises:1,discount:1})
     if(!courses)
     {
         res.status(404).json({error:'No results found'})
@@ -72,7 +73,7 @@ const viewCourses = async (req,res) =>
 }
 const viewCoursesCor = async (req,res) =>
 {
-    const courses = await Course.find({},{_id:0,title:1,hours:1,rating:1})
+    const courses = await Course.find({},{_id:0,title:1,hours:1,rating:1,subtitle:1,exercises:1,discount:1})
     if(!courses)
     {
         res.status(404).json({error:'No results found'})

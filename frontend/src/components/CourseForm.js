@@ -10,14 +10,16 @@ const CourseForm = () => {
     const [discount,SetDiscunt] = useState('')
     const [rating,SetRating] = useState('')
     const [error,SetError] = useState(null)
-
+    const params = new URLSearchParams(window.location.search);
+    const instructorID = params.get('Id');
+    console.log(instructorID);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         const course = {title, subtitle, exercises, summary, subject, hours, price, discount, rating}
 
-        const response = await fetch('/Instructor/addCourse', {
+        const response = await fetch(`/Instructor/addCourse?Id=${instructorID}`, {
             method: 'POST',
             body:JSON.stringify(course),
             headers: {
@@ -47,72 +49,90 @@ const CourseForm = () => {
     return(
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Course</h3>
-
-            <label>Course Title:</label>
+            <div>
+            <label>Course Title</label>
             <input
                 type="text"
                 onChange={(e)=> SetTitle(e.target.value)}
                 value={title}
             />
+            </div>
 
-            <label>Subtitle:</label>
+            <div>
+            <label>Subtitle</label>
             <input
                 type="text"
                 onChange={(e)=> SetSubtitle(e.target.value)}
                 value={subtitle}
             />
+            </div>
 
-            <label>Exercises:</label>
+            <div>
+            <label>Exercises</label>
             <input
                 type="text"
                 onChange={(e)=> SetExercises(e.target.value)}
                 value={exercises}
             />
+            </div>
 
-            <label>Summary:</label>
+            <div>
+            <label>Summary</label>
             <input
                 type="text"
                 onChange={(e)=> SetSummary(e.target.value)}
                 value={summary}
             />
-
-            <label>Subject:</label>
+            </div>
+    
+            <div>
+            <label>Subject</label>
             <input
                 type="text"
                 onChange={(e)=> SetSubject(e.target.value)}
                 value={subject}
             />
+            </div>
 
-            <label>Hours:</label>
+            <div>
+            <label>Hours</label>
             <input
                 type="number"
                 onChange={(e)=> SetHours(e.target.value)}
                 value={hours}
             />
+            </div>
 
-            <label>Price:</label>
+            <div>
+            <label>Price</label>
             <input
                 type="number"
                 onChange={(e)=> SetPrice(e.target.value)}
                 value={price}
             />
+            </div>
 
-            <label>Discount:</label>
+            <div>
+            <label>Discount</label>
             <input
                 type="number"
                 onChange={(e)=> SetDiscunt(e.target.value)}
                 value={discount}
             />
+            </div>
 
-            <label>Rating:</label>
+            <div>
+            <label>Rating</label>
             <input
                 type="number"
                 onChange={(e)=> SetRating(e.target.value)}
                 value={rating}
             />
+            </div>
 
-            <button>Add Course</button>
+            <button id="addCourseButton">Add Course</button>
             {error && <div className="error">{error}</div>}
+          
         </form>
         
 

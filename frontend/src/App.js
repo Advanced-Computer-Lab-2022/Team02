@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Home from './pages/Home'
+import Ins from './pages/Instructor'
 import Navbar from './components/Navbar'
 import Admin from './pages/Admin'
-import Courses from './pages/Courses'
+import Ind from './pages/IndividualTrainee'
 import Corporate from './pages/Corporate'
 import HomePage from './pages/HomePage'
+import InstructorCourses from './pages/InstructorCourses'
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Route
           //indvidual and guest
           path="/inTrainee"
-          element={<Courses/>}
+          element={<Ind/>}
           />
             <Route
          path='/'
@@ -26,7 +27,7 @@ function App() {
             />
           <Route
             path="/Instructor"
-            element={<Home/>}
+            element={<Ins/>}
           />
           <Route
             path="/admin"
@@ -35,6 +36,10 @@ function App() {
           <Route
             path="/corTrainee"
             element={<Corporate/>}
+          />
+          <Route
+            path="/InstructorCourses"
+            element={<InstructorCourses/>}
           />
         </Routes>
       </div>

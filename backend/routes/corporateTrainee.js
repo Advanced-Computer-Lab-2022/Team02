@@ -4,7 +4,7 @@ const Course = require ('../controllers/courseController.js')
 
 
 router.post('/viewAllCourses',Course.viewCoursesCor)
-router.put('/filterCoursesSR',Course.filterSubjectRating)
+router.post('/filterCoursesSR',Course.filterSubjectRating)
 router.post('/Search',Course.Search)
 
 

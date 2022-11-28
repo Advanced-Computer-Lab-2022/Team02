@@ -14,7 +14,7 @@ function addCourse(req,res)
     cours.price = req.body.price
     cours.discount = req.body.discount
     cours.rating = req.body.rating
-    cours.instructorID = req.body.instructorID
+    cours.instructorID = req.query.Id
     
     return Course.create(cours).then(function(users)
     {
@@ -27,7 +27,7 @@ function addCourse(req,res)
 }
 const viewCourses = async (req,res) =>
 {
-    const ID = req.body.ID
+    const ID = req.query.Id
     const courses = await Course.find({instructorID:{ $eq: ID}}).select('title')
 
     if(!courses)
@@ -62,7 +62,7 @@ const filterCourses = async (req,res) =>
 const InstructSearch = async (req,res) =>
 {
         
-        const ID = req.body.ID
+        const ID = req.query.Id
         const Search  = req.body.Search
 
            const courses = await Course.find({instructorID:{ $eq: ID}}).or([{title:{ $regex: Search, $options: "i"}},{subject:{ $regex: Search, $options: "i"}}])

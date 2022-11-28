@@ -31,26 +31,31 @@ const InstructorForm = () => {
     }
 
     return(
-        <form className="create" onSubmit={handleSubmit}>
+        <div className="adminCreate">
+        <form onSubmit={handleSubmit}>
             <h3>Add a New Instructor</h3>
-
+            <div>
             <label>Instructor Username:</label>
             <input
                 type="text"
                 onChange={(e)=> SetUsername(e.target.value)}
                 value={username}
             />
+            </div>
 
+            <div>
             <label>Password:</label>
             <input
                 type="text"
                 onChange={(e)=> SetPassword(e.target.value)}
                 value={password}
             />
+            </div>
 
-            <button>Add Instructor</button>
+            <button id="addCourseButton">Add Instructor</button>
             {error && <div className="error">{error}</div>}
         </form>
+        </div>
 
         
 

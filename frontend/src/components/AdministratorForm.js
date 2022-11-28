@@ -31,26 +31,32 @@ const AdministratorForm = () => {
     }
 
     return(
+        <div className="adminCreate">
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Administrator</h3>
 
+            <div>
             <label>Administrator Username:</label>
             <input
                 type="text"
                 onChange={(e)=> SetUsername(e.target.value)}
                 value={username}
             />
+            </div>
 
+            <div>
             <label>Password:</label>
             <input
                 type="text"
                 onChange={(e)=> SetPassword(e.target.value)}
                 value={password}
             />
+            </div>
 
-            <button>Add Administrator</button>
+            <button id="addCourseButton">Add Administrator</button>
             {error && <div className="error">{error}</div>}
         </form>
+        </div>
         
 
     )

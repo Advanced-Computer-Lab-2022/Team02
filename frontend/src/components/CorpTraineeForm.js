@@ -31,27 +31,32 @@ const CorpTraineeForm = () => {
     }
 
     return(
+        <div className="adminCreate">
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Corporate Trainee</h3>
 
+            <div>
             <label>Corporate Trainee Username:</label>
             <input
                 type="text"
                 onChange={(e)=> SetUsername(e.target.value)}
                 value={username}
             />
+            </div>
 
+            <div>
             <label>Password:</label>
             <input
                 type="text"
                 onChange={(e)=> SetPassword(e.target.value)}
                 value={password}
             />
+            </div>
 
-            <button>Add Corporate Trainee</button>
+            <button id="addCourseButton">Add Corporate Trainee</button>
             {error && <div className="error">{error}</div>}
         </form>
-
+        </div>
         
 
     )

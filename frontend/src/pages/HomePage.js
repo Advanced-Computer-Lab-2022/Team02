@@ -1,5 +1,5 @@
-import { useEffect, useState} from "react"
-import {useNavigate,redirect} from 'react-router-dom'
+
+import {useNavigate} from 'react-router-dom'
 
 const Home = ()=> {
     let navigate = useNavigate();
@@ -16,18 +16,19 @@ const Home = ()=> {
     navigate('/corTrainee')
   }
     return(
-        <div className="Home">
-            <h2>Home</h2>
-            <button onClick={InstructorClick}>
+        <div>
+            <h3>Home</h3>
+
+            <button id="homeButtons" onClick={InstructorClick}>
                 Instructor
             </button>
-            <button onClick={IndividualTraineeClick}>
+            <button id="homeButtons" onClick={IndividualTraineeClick}>
                 Individual Trainee / Guest 
             </button>
-            <button onClick={CorporateTraineeClick}>
+            <button id="homeButtons" onClick={CorporateTraineeClick}>
                 Corporate Trainee
             </button>
-            <button onClick={AdminClick}>
+            <button id="homeButtons" onClick={AdminClick}>
                 Administrator
             </button>
             

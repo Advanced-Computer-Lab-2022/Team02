@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 
 import InstructorDetails from '../components/InstructorDetails'
 import InstructorForm from '../components/InstructorForm'
-import AdministratorDetails from "../components/AdministratorDetails"
 import AdministratorForm from "../components/AdministratorForm"
 import CorpTraineeForm from "../components/CorpTraineeForm"
 const Admin = () => {
@@ -39,34 +38,6 @@ const Admin = () => {
 
 
 }
-/*const Adminn = () =>{
-const [administrator, setAdministrators] = useState(null)
-
-useEffect(()=>{
-    const fetchAdministrators = async()=>{
-        const response = await fetch('/')
-        const json = await response.json()
-
-        if(response.ok){
-            setAdministrators(json)
-
-        }
-    }
-    fetchAdministrators()
-}, [])
-
-return(
-    <div className="admin">
-        <div className="Administrator">
-            {administrator && administrator.map((Administrator) => (
-                <AdministratorDetails key={Administrator._id} course={Administrator}/>
-            ))}
-        </div>
-        <AdministratorForm/>
-    </div>
-
-)
-            }*/
 
 export default Admin//,Adminn}
   
