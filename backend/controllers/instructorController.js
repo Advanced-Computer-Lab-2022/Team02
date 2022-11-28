@@ -39,24 +39,24 @@ const viewCourses = async (req,res) =>
 }
 const filterCourses = async (req,res) =>
 {
-    const ID = req.body.ID
+    const ID = req.query.Id
     const subject = req.body.subject
     const price = req.body.price
     const courses = await Course.find({instructorID:{ $eq: ID}}).and({subject:{ $eq: subject}})
     const courses2 = await Course.find({instructorID:{ $eq: ID}}).and({price:{ $lte: price}})
+    const courses3 = await Course.find({instructorID:{ $eq: '-1'}});
 
-    if(price === undefined)
+    if(price === '' && subject !== '')
     {
         res.status(200).json(courses)
     }
-    if(subject === undefined)
+    else if(subject === '' && price !== '')
     {
         res.status(200).json(courses2)
     }
-
-    if(!courses)
+    else if(subject === '' && price === '')
     {
-        res.status(404).json({error:'No results found'})
+        res.status(200).json(courses3)
     }
 }
 const InstructSearch = async (req,res) =>

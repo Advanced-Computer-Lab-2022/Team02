@@ -7,6 +7,7 @@ import Ind from './pages/IndividualTrainee'
 import Corporate from './pages/Corporate'
 import HomePage from './pages/HomePage'
 import InstructorCourses from './pages/InstructorCourses'
+import Guest from './pages/Guest'
 
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
           <Route
             path="/InstructorCourses"
             element={<InstructorCourses/>}
+          />
+          <Route
+            path="/Guest"
+            element={<Guest/>}
           />
         </Routes>
       </div>

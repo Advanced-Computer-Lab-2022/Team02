@@ -42,22 +42,24 @@ const filterSubjectRating = async (req,res) =>
     const courses2 = await Course.find({rating:{ $eq: rating}})
     const courses =  await Course.find({subject:{ $eq: subject}})
     const courses1 = await Course.find({subject:{ $eq: subject}}).and({rating:{ $eq: rating}})
-    if(rating === undefined)
+    const courses3 = await Course.find({subject:{ $eq: '-1'}})
+    if(rating === '' && subject !=='')
     {
         res.status(200).json(courses)
     }
-    if(subject === undefined)
+    else if(rating !== '' && subject ==='')
     {
         res.status(200).json(courses2)
     }
-    else if (rating !== undefined && subject !== undefined)
+    else if (rating !== '' && subject !== '')
     {
         res.status(200).json(courses1)
     }
-    if(!courses)
-        {
-            res.status(404).json({error:'No results found'})
-        }
+    else
+    {
+        res.status(200).json(courses3)
+    }
+
     
 }
 

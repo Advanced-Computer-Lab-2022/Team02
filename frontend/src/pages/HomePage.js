@@ -15,6 +15,9 @@ const Home = ()=> {
   function CorporateTraineeClick() {
     navigate('/corTrainee')
   }
+  function GuestClick(){
+    navigate('/guest')
+  }
     return(
         <div>
             <h3>Home</h3>
@@ -23,13 +26,16 @@ const Home = ()=> {
                 Instructor
             </button>
             <button id="homeButtons" onClick={IndividualTraineeClick}>
-                Individual Trainee / Guest 
+                Individual Trainee
             </button>
             <button id="homeButtons" onClick={CorporateTraineeClick}>
                 Corporate Trainee
             </button>
             <button id="homeButtons" onClick={AdminClick}>
                 Administrator
+            </button>
+            <button id="homeButtons" onClick={GuestClick}>
+                Guest
             </button>
             
         </div>

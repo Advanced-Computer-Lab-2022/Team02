@@ -8,8 +8,8 @@ import SearchForm from '../components/SearchForm'
 const Home = () => {
     let navigate = useNavigate();
     const [courses, setCourse] = useState(null)
-    const [subject, setSubject] = useState(undefined);
-    const [rating, setRating] = useState(undefined);
+    const [subject, setSubject] = useState('');
+    const [rating, setRating] = useState('');
     const [price, setPrice] = useState('');
 
 
@@ -45,8 +45,8 @@ const Home = () => {
         console.log(Courses);
         if(response.ok)
         {
-            setSubject(undefined);
-            setRating(undefined);
+            setSubject('');
+            setRating('');
             setCourse(Courses);
         }
     }

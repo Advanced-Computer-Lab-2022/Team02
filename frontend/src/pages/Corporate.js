@@ -7,8 +7,8 @@ import SearchForm from '../components/SearchForm'
 
 const Courses = () => {
     const [courses, setCourse] = useState(null)
-    const [subject, setSubject] = useState(undefined);
-    const [rating, setRating] = useState(undefined);
+    const [subject, setSubject] = useState('');
+    const [rating, setRating] = useState('');
 
     useEffect(()=>{
         const fetchCourses = async()=>{
@@ -38,8 +38,8 @@ const Courses = () => {
             console.log(Courses);
             if(response.ok)
             {
-                setSubject(undefined);
-                setRating(undefined);
+                setSubject('');
+                setRating('');
                 setCourse(Courses);
             }
         }

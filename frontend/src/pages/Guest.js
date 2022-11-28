@@ -4,7 +4,7 @@ import SearchForm from '../components/SearchForm'
 
 import CourseDetails from '../components/CourseDetails'
 
-const Courses = () => {
+const Guest = () => {
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
@@ -109,7 +109,7 @@ const Courses = () => {
 
 }
 
-export default Courses
+export default Guest
 
 
 
