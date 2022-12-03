@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 //import { Link } from 'react-router-dom';
 import SearchForm from '../components/SearchForm'
 
-import CourseDetails from '../components/CourseDetails'
+import CourseDetailsI from '../components/CoursedetailsI'
 
 const Guest = () => {
     const [courses, setCourse] = useState(null)
@@ -67,7 +67,7 @@ const Guest = () => {
         <div className="home">
             <div className="Courses">
                 {courses && courses.map((course) => (
-                    <CourseDetails key={course._id} course={course}/>
+                    <CourseDetailsI key={course._id} course={course}/>
                 ))}
             <form className="create">
             <div className="block">

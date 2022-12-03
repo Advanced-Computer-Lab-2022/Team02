@@ -4,6 +4,7 @@ import CourseDetails from '../components/CourseDetails'
 import CourseForm from '../components/CourseForm'
 import {useNavigate} from 'react-router-dom'
 import SearchForm from '../components/SearchForm'
+import axios from "axios"
 
 const Home = () => {
     let navigate = useNavigate();
@@ -11,24 +12,41 @@ const Home = () => {
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
     const [price, setPrice] = useState('');
-
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('Id');
 
     useEffect(()=>{
         const fetchCourses = async()=>{
-            const response = await fetch('/indTrainee/viewAllCourses')
-            const json = await response.json()
-
-            if(response.ok){
-                setCourse(json)
-
-            }
+            await axios.get('/indTrainee/viewAllCourses').then(
+                (res) => { 
+                    const courses = res.data
+                    console.log(courses)
+                    setCourse(courses)
+                    
+                }
+                 );
         }
+        
         fetchCourses()
     }, [])
+    console.log(courses)
     function HandelViewMyCoursesClick()
     {
-        navigate('/InstructorCourses')
+        window.location.href=`/InstructorCourses?Id=${userId}`
     }
+    function HandleContractClick()
+    {
+        navigate('/Contract')
+    }
+    function EditClick(){
+        navigate('/EditAccount')
+    }
+    async function CreateQuiz(){
+        await fetch('Instructor/createQuiz', {
+           method: 'POST',
+       })
+       navigate('/CreateQuiz')
+   }
     const Filter = async(e) => {
         console.log(rating);
         e.preventDefault();
@@ -77,7 +95,13 @@ const Home = () => {
                 {courses && courses.map((course) => (
                     <CourseDetails key={course._id} course={course}/>
                 ))}
-                <button id="filterbutton"onClick={HandelViewMyCoursesClick}>ViewMyCourses</button>
+        
+                 <div>
+      </div>
+                <button id="filterbutton"onClick={EditClick}>Edit Account</button>
+                <button id="filterbutton"onClick={CreateQuiz}>Create Quiz</button>   
+                <button id="filterbutton" onClick={HandelViewMyCoursesClick}>ViewMyCourses</button>
+                <button id="filterbutton"onClick={HandleContractClick}>ViewContract</button>
                 <form className="create">
             <div className="block">
             <label>Rating</label>

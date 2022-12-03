@@ -6,6 +6,25 @@
   --primary: #1aac83;
   --error: #e7195a;
 }
+.Contract h4{
+  font-size: 40px;
+  color: white;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+}
+.Contract p{
+  font-size: 20px;
+  color: white;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.Contract label {
+  vertical-align: bottom;
+}
+#confirm input{
+  vertical-align: bottom;
+  display: flex;
+  margin-left: -100em;
+}
 body {
   background: #f1f1f1;
   margin: 0;
@@ -46,7 +65,7 @@ header a {
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
- .course-details h4 {
+.course-details h4 {
   margin: 0 0 10px 0;
   font-size: 25px;
   color: var(--primary);
@@ -137,6 +156,25 @@ header a {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #528009;
 }
+#submitButton{
+  box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:linear-gradient(to bottom, var(--primary), var(--primary));
+	background-color:var(--primary);
+	border-radius:6px;
+	border:1px solid var(--primary);
+  width:10%;
+	display: block;
+	cursor:pointer;
+  color:#ffffff;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size:15px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+#submitButton:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
 #addCourseButton:hover {
 	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
 	background-color:#77a809;
@@ -199,6 +237,15 @@ input {
   background-color: teal;
   color: white;
 } 
+.h{
+  width: 25%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid teal;
+  font-size: 15px;
+  background-color: white;
+  color: teal;
+}
 label {
   position: absolute;
   top: 40;
@@ -216,6 +263,23 @@ label {
 input:focus {
   outline: none;
 }
+#currency {
+  width: 10%;
+  padding: 5px;
+  color: black;
+  background-color:teal;
+  margin-left: 75px;
+  border: 2px solid black;
+}
+#country {
+  width: 50%;
+  padding: 5px;
+  color: black;
+  background-color: teal;
+  margin-left: 75px;
+  border: 2px black;
+
+}
 #filter {
   width: 30%;
   padding: 10px;
@@ -225,3 +289,6 @@ input:focus {
   background-color: teal;
   color: white;
 } 
+#error{
+  color: var(--error);
+}

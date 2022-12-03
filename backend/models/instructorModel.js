@@ -23,10 +23,13 @@ const instructorSchema = new Schema({
         type:String,
         
     },
-   /* courses:{
+    rating:{
+        type:[Number]
+    },
+    reviews:{
         type:[String]
+    }
 
-    }*/
 
 
 

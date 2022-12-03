@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import CountryCurrency from '../components/CountryCurrency'
 
 const Navbar = () => {
 
@@ -11,6 +12,7 @@ const Navbar = () => {
                         Learning App
                     </h1>
                 </Link>
+                <CountryCurrency></CountryCurrency>
             </div>
         </header>
     )

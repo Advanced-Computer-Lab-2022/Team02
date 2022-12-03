@@ -1,38 +1,34 @@
 import { useState } from "react"
 import React from "react";
-import SearchDetails from "../components/SearchDetails"
-    const Searchh1 = () => {
+import SearchDetails from "../components/SearchDetailsC"
+    const Searchh = () => {
         const [Search, setSearch] = useState('');
         const [Courses, setCourses] = useState('');
-        const params = new URLSearchParams(window.location.search);
-        const userId = params.get('Id');
-       
-        const handleSubmit1 = async(e) =>
+      
+        const handleSubmit = async(e) =>
         {
-            console.log(userId);
             e.preventDefault();
             const search = {Search};
-            const response = await fetch(`/Instructor/SearchMyCourses?Id=${userId}` , {
+            const response = await fetch('/corTrainee/Search' , {
                 method : 'POST',
                 body : JSON.stringify(search),
                 headers: {
                     'Content-Type': 'application/json'
                 }
+
             } )
             const Courses = await response.json()
-
             if(response.ok)
             {
-                setCourses(Courses);
                 setSearch('');
-                
+                setCourses(Courses);
             }
         }
 
       
         return (
             <div>
-            <form className="create" onSubmit={handleSubmit1}>
+            <form className="create" onSubmit={handleSubmit}>
                 <label>SearchBar</label>
                 <input
                     type="Search"
@@ -51,4 +47,4 @@ import SearchDetails from "../components/SearchDetails"
         );
       }
       
-      export default Searchh1;
+      export default Searchh;

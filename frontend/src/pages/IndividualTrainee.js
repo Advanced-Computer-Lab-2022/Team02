@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 //import { Link } from 'react-router-dom';
 import SearchForm from '../components/SearchForm'
-
-import CourseDetails from '../components/CourseDetails'
+import Ratee from '../components/RateInstructor'
+import {useNavigate} from 'react-router-dom'
+import CourseDetailsI from '../components/CoursedetailsI'
 
 const Courses = () => {
+    let navigate = useNavigate();
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
@@ -63,13 +65,17 @@ const Courses = () => {
             setCourse(Courses);
         }
     }
+    function EditClick(){
+        navigate('/ChangeMyPassword')
+    }
     return(
         <div className="home">
             <div className="Courses">
                 {courses && courses.map((course) => (
-                    <CourseDetails key={course._id} course={course}/>
+                    <CourseDetailsI key={course._id} course={course}/>
                 ))}
             <form className="create">
+            <button id="filterbutton"onClick={EditClick}>Edit Account</button>
             <div className="block">
             <label>Rating</label>
             <input id="filter"
@@ -78,7 +84,6 @@ const Courses = () => {
                 value={rating}
             />
             </div>
-
             <div>
             <label>Subject</label>
             <input id="filter"
@@ -100,7 +105,11 @@ const Courses = () => {
             </div>
             </form>
             </div>
+            <div>
             <SearchForm></SearchForm>
+            <br></br>
+            <Ratee></Ratee>
+            </div>
         </div>
 
     )

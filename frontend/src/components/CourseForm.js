@@ -1,14 +1,12 @@
 import { useState } from "react"
 const CourseForm = () => {
     const [title,SetTitle] = useState('')
-    const [subtitle,SetSubtitle] = useState('')
+    const [subtitlee,SetSubtitle] = useState('')
     const [exercises,SetExercises] = useState('')
     const [summary,SetSummary] = useState('')
     const [subject,SetSubject] = useState('')
     const [hours,SetHours] = useState('')
     const [price,SetPrice] = useState('')
-    const [discount,SetDiscunt] = useState('')
-    const [rating,SetRating] = useState('')
     const [error,SetError] = useState(null)
     const params = new URLSearchParams(window.location.search);
     const instructorID = params.get('Id');
@@ -17,7 +15,8 @@ const CourseForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const course = {title, subtitle, exercises, summary, subject, hours, price, discount, rating}
+        const subtitle = {name : subtitlee , hours : (hours/2)}
+        const course = {title, subtitle, exercises, summary, subject, hours, price}
 
         const response = await fetch(`/Instructor/addCourse?Id=${instructorID}`, {
             method: 'POST',
@@ -39,8 +38,6 @@ const CourseForm = () => {
             SetSubject('')
             SetHours('')
             SetPrice('')
-            SetDiscunt('')
-            SetRating('')
             SetError(null)
             console.log('new Course added', json)
         }
@@ -63,7 +60,7 @@ const CourseForm = () => {
             <input
                 type="text"
                 onChange={(e)=> SetSubtitle(e.target.value)}
-                value={subtitle}
+                value={subtitlee}
             />
             </div>
 
@@ -109,24 +106,6 @@ const CourseForm = () => {
                 type="number"
                 onChange={(e)=> SetPrice(e.target.value)}
                 value={price}
-            />
-            </div>
-
-            <div>
-            <label>Discount</label>
-            <input
-                type="number"
-                onChange={(e)=> SetDiscunt(e.target.value)}
-                value={discount}
-            />
-            </div>
-
-            <div>
-            <label>Rating</label>
-            <input
-                type="number"
-                onChange={(e)=> SetRating(e.target.value)}
-                value={rating}
             />
             </div>
 

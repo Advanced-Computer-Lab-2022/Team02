@@ -2,10 +2,13 @@ import { useEffect, useState } from "react"
 //import { Link } from 'react-router-dom';
 
 import CourseDetails from '../components/CoursDetails'
-import SearchForm from '../components/SearchForm'
+import SearchForm from '../components/SearchFormC'
+import Ratee from "../components/RateInstructor"
+import {useNavigate} from 'react-router-dom'
 
 
 const Courses = () => {
+    let navigate = useNavigate();
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
@@ -43,8 +46,9 @@ const Courses = () => {
                 setCourse(Courses);
             }
         }
-
-
+        function EditClick(){
+            navigate('/ChangeMyPasswordCor')
+        }
     return(
         <div className="home">
             <div className="Courses">
@@ -54,8 +58,12 @@ const Courses = () => {
             </div>
             <div>
                 <SearchForm></SearchForm>
+                <br></br>
+                <Ratee></Ratee>
             </div>
             <form className="create">
+            <button id="filterbutton"onClick={EditClick}>Edit Account</button>
+            <br></br>
             <div>
             <label>Rating</label>
             <input id="filter"

@@ -1,5 +1,4 @@
 const mongoose=require('mongoose')
-
 const Schema = mongoose.Schema
 
 const courseSchema = new Schema({
@@ -7,16 +6,16 @@ const courseSchema = new Schema({
         type:String,
         required:true
     },
-    subtitle:{
-        type:String,
-        required:true
+    subtitle:
+    [{
+        type:mongoose.Types.ObjectId,
+        ref:'Subtitles'
+    }],
+    exercises:[{
+        type:mongoose.Types.ObjectId,
+        ref:'quiz'
 
-    },
-    exercises:{
-        type:String,
-        required:true
-
-    },
+    }],
     summary:{
         type:String,
         required:true
@@ -37,16 +36,21 @@ const courseSchema = new Schema({
 
     },
     discount:{
-        type:Number,
-        
+        type:Object
     },
     rating:{
-        type:Number,
+        type:[Number],
         
     },
     instructorID:{
         type:String,
         required:true
+    },
+    reviews:{
+        type:[String]
+    },
+    Link:{
+        type:String
     }
 
 }, { timestamps: true })
