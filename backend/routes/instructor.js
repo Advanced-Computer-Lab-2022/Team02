@@ -23,5 +23,7 @@ router.post('/editEmail',Instruct.editEmail)
 router.post('/changePassword',Instruct.changePassword)
 router.post('/createQuiz',Instruct.CreateQuiz)
 router.post('/createQuestion',Instruct.CreateQuestion)
-
+router.post('/allUsers',Instruct.getallusers);
+router.post('/login',Instruct.login);
+router.post('/logout',Instruct.logout);
 module.exports=router

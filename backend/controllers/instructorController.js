@@ -6,6 +6,15 @@ var Subtitle = require('../models/subtitleModel')
 var Instructor = require('../models/instructorModel')
 var Question=require('../models/questionModel')
 var Quiz = require('../models/quizModel')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, 'supersecret', {
+        expiresIn: maxAge
+    });
+};
 
 async function addCourse(req,res)
 {   
@@ -179,4 +188,39 @@ async function CreateQuestion (req,res)
     res.status(200).json(quizId)
 }
 
-module.exports={addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion}
+const getallusers = async(req,res) => {
+
+    const x = await Instructor.find({});
+    res.status(200).json(x);
+}
+
+const logout = async (req, res) => {
+    res.cookie("jwt", "", {
+        httpOnly: true, 
+        secure: true,
+        sameSite: "none",    
+        expires: new Date(1)
+    });
+    res.send("cookie cleared")
+}
+
+const login = async (req, res) => 
+{
+    const {username,password} = req.body;
+    const user = await Instructor.findOne({username:username})
+    console.log(await bcrypt.compare(password,user.password))
+    if(user === null || !await bcrypt.compare(password,user.password))
+    {
+        res.status(404).json({error: 'Wrong Username or password'})
+    }
+    else if(await bcrypt.compare(password,user.password))
+    {
+        const token = createToken(user._id)
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        console.log(token) 
+        res.status(200).json(user)
+    }
+}
+
+
+module.exports={getallusers,addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion,login,logout}

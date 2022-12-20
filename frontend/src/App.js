@@ -15,6 +15,7 @@ import EditAccount from './pages/editAccount'
 import QuizCrea from './pages/CreateQuiz'
 import ChangeMyPassword from './pages/ChangeMyPassword'
 import ChangeMyPasswordCor from './pages/ChangeMyPasswordCor'
+import SignUp from './pages/SignUp'
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
             <Route
          path='/'
          element= {<HomePage/>}
+            />
+            <Route
+         path='/signUp'
+         element= {<SignUp/>}
             />
           <Route
             path="/Instructor"

@@ -88,6 +88,17 @@ const Home = () => {
             setCourse(Courses);
         }
     }
+    const logout = async(e) => {
+        const response = await fetch('/indTrainee/logout' , {
+            method : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+
+        } )
+
+        window.location.href='/'
+    }
 
     return(
         <div className="home">
@@ -130,6 +141,7 @@ const Home = () => {
                 value={subject}
             />
             <button id="filterbutton" onClick={Filter2} >Filter</button>
+            <button id="filterbutton" onClick={logout} >logout</button>
             </div>
             </form>
                 <CourseForm/>

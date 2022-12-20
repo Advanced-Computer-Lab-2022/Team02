@@ -8,6 +8,9 @@ router.post('/viewAllCourses',Course.viewCoursesCor)
 router.post('/filterCoursesSR',Course.filterSubjectRating)
 router.post('/Search',Course.Search)
 router.post('/changePassword',Trainee.changePassworddCor)
+router.post('/login',Trainee.loginC)
+router.post('/logout',Trainee.logout)
+
 
 
 
