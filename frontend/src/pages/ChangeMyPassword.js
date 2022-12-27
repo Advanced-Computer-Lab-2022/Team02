@@ -1,8 +1,9 @@
 import { useState } from "react"
-
+import { useAuthContext } from "../hooks/useAuthContext"
 const ChangeMyPassword =()=>{
     const [password,setPassword]=useState('')
     const [error,SetError] = useState(null)
+    const {user} = useAuthContext()
     const params = new URLSearchParams(window.location.search);
     const Id = params.get('Id');
     console.log(Id);
@@ -10,17 +11,17 @@ const ChangeMyPassword =()=>{
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const user = {password}
+        const userr = {password}
 
-
-        const response = await fetch(`../indTrainee/changePassword?Id=${Id}`, {
+        const response = await fetch('../indTrainee/changePassword', {
             method: 'POST',
-            body:JSON.stringify(user),
+            body:JSON.stringify(userr),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
-        console.log(user)
+        console.log(userr)
 
         if (!response.ok){
             SetError()

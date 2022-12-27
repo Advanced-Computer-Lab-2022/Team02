@@ -13,7 +13,7 @@ const CoursePrev = () =>
 
             if(courseID!==null){
             console.log(courseID)
-            const response = await fetch(`/Instructor/getLink?Id=${courseID}`, {
+            const response = await fetch(`/guest/getLink?Id=${courseID}`, {
                 method: 'GET'
             })
             const f = await response.json()

@@ -1,5 +1,8 @@
 import { useState } from "react"
+import {useNavigate} from 'react-router-dom'
+import { useLogin } from '../hooks/useLogin';
 const CourseForm = () => {
+    let navigate = useNavigate();
     const [UserName,SetUserName] = useState('')
     const [password,SetPassword] = useState('')
     const [Email,SetEmail] = useState('')
@@ -7,13 +10,14 @@ const CourseForm = () => {
     const [LastName,SetLastName] = useState('')
     const [Gender,SetGender] = useState('')
     const [error,SetError] = useState(null)
+    const {login,errorr,isLoading} = useLogin()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         const user = {UserName, password, Email, FirstName, LastName, Gender}
 
-        const response = await fetch('/indTrainee/signUp', {
+        const response = await fetch('/guest/signUp', {
             method: 'POST',
             body:JSON.stringify(user),
             headers: {
@@ -34,15 +38,16 @@ const CourseForm = () => {
             SetUserName('')
             SetError(null)
             console.log('Signed Up', json)
+            navigate('/Policy')
         }
     }
 
     return(
-        <form className="create" onSubmit={handleSubmit}>
-            <h3>Sign Up</h3>
+        <form className="signup" onSubmit={handleSubmit}>
+            <h3 className="loginn">Sign Up</h3>
 
             <div>
-            <label>User Name</label>
+            <label className="field">User Name</label>
             <input
                 className="Sign"
                 type="text"
@@ -52,7 +57,7 @@ const CourseForm = () => {
             </div>
 
             <div>
-            <label>First Name</label>
+            <label className="field">First Name</label>
             <input
                 className="Sign"
                 type="text"
@@ -62,7 +67,7 @@ const CourseForm = () => {
             </div>
 
             <div>
-            <label>Last Name</label>
+            <label className="field">Last Name</label>
             <input
                 className="Sign"
                 type="text"
@@ -72,7 +77,7 @@ const CourseForm = () => {
             </div>
 
             <div>
-            <label>Gender</label>
+            <label className="field">Gender</label>
             <input
                 className="Sign"
                 type="text"
@@ -82,7 +87,7 @@ const CourseForm = () => {
             </div>
 
             <div>
-            <label>Email</label>
+            <label className="field">Email</label>
             <input
                 className="Sign"
                 type="text"
@@ -92,7 +97,7 @@ const CourseForm = () => {
             </div>
     
             <div>
-            <label>Password</label>
+            <label className="field">Password</label>
             <input
                 className="Sign"
                 type="password"
@@ -101,9 +106,8 @@ const CourseForm = () => {
             />
             </div>
 
-            <button id="addCourseButton" onClick={handleSubmit}>Sign Up</button>
-            <br></br>
-            <button id="addCourseButton" onClick={() => window.location.href='/'}>Already registered? Login</button>
+            <button id="loginButton" onClick={handleSubmit}>Sign Up</button>
+            <button id="loginButtonn" onClick={() => window.location.href='/'}>Already registered? Login</button>
             <br></br>
             {error && <div className="error">{error}</div>}
           

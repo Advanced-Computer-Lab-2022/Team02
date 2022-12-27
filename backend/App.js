@@ -5,6 +5,7 @@ const mongoose=require('mongoose')
 const InstructRouter= require('./routes/instructor')
 const InTraineeRouter= require('./routes/individualTrainee')
 const corTraineeRouter= require('./routes/corporateTrainee')
+const guestRouter= require('./routes/guest')
 
 const app= express();
 
@@ -15,7 +16,7 @@ app.use('/Admin',AdminRouter)
 app.use('/Instructor',InstructRouter)
 app.use('/indTrainee',InTraineeRouter)
 app.use('/corTrainee',corTraineeRouter)
-app.use('/guest',InTraineeRouter)
+app.use('/guest',guestRouter)
 
 
 mongoose.connect(process.env.MONGO_URI2)

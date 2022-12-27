@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useAuthContext } from "../hooks/useAuthContext"
 const CourseForm = () => {
     const [title,SetTitle] = useState('')
     const [subtitlee,SetSubtitle] = useState('')
@@ -7,6 +8,7 @@ const CourseForm = () => {
     const [subject,SetSubject] = useState('')
     const [hours,SetHours] = useState('')
     const [price,SetPrice] = useState('')
+    const {user} = useAuthContext()
     const [error,SetError] = useState(null)
     const params = new URLSearchParams(window.location.search);
     const instructorID = params.get('Id');
@@ -18,11 +20,16 @@ const CourseForm = () => {
         const subtitle = {name : subtitlee , hours : (hours/2)}
         const course = {title, subtitle, exercises, summary, subject, hours, price}
 
-        const response = await fetch(`/Instructor/addCourse?Id=${instructorID}`, {
+        if(!user)
+        {
+            SetError('You must be logged in')
+        }
+        const response = await fetch('/Instructor/addCourse', {
             method: 'POST',
             body:JSON.stringify(course),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json

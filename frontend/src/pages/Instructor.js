@@ -5,19 +5,24 @@ import CourseForm from '../components/CourseForm'
 import {useNavigate} from 'react-router-dom'
 import SearchForm from '../components/SearchForm'
 import axios from "axios"
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const Home = () => {
     let navigate = useNavigate();
     const [courses, setCourse] = useState(null)
-    const [subject, setSubject] = useState('');
-    const [rating, setRating] = useState('');
+    const [subject, setSubject] = useState(undefined);
+    const [rating, setRating] = useState(undefined);
     const [price, setPrice] = useState('');
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get('Id');
-
+    const {user} = useAuthContext()
+    console.log(user)
     useEffect(()=>{
         const fetchCourses = async()=>{
-            await axios.get('/indTrainee/viewAllCourses').then(
+
+            console.log(user)
+            await axios.get('/Instructor/viewAllCourses',{
+                headers: {
+                  "Authorization": `Bearer ${user.token}` //the token is a variable which holds the token
+                }}).then(
                 (res) => { 
                     const courses = res.data
                     console.log(courses)
@@ -26,13 +31,13 @@ const Home = () => {
                 }
                  );
         }
-        
-        fetchCourses()
-    }, [])
+        if(user)
+             fetchCourses()
+    }, [user])
     console.log(courses)
     function HandelViewMyCoursesClick()
     {
-        window.location.href=`/InstructorCourses?Id=${userId}`
+        window.location.href=`/InstructorCourses?Id=${user.id}`
     }
     function HandleContractClick()
     {
@@ -49,18 +54,19 @@ const Home = () => {
    }
     const Filter = async(e) => {
         console.log(rating);
+        console.log(subject);
         e.preventDefault();
         const filter = {rating,subject};
-        const response = await fetch('/corTrainee/filterCoursesSR' , {
-            method : 'POST',
+        const response = await fetch('/Instructor/filterCoursesSR' , {
+            method : 'PUT',
             body : JSON.stringify(filter),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
 
         } )
         const Courses = await response.json()
-        console.log(Courses);
         if(response.ok)
         {
             setSubject('');
@@ -76,7 +82,8 @@ const Home = () => {
             method : 'POST',
             body : JSON.stringify(filter),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
 
         } )
@@ -88,19 +95,9 @@ const Home = () => {
             setCourse(Courses);
         }
     }
-    const logout = async(e) => {
-        const response = await fetch('/indTrainee/logout' , {
-            method : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-
-        } )
-
-        window.location.href='/'
-    }
 
     return(
+        <div>
         <div className="home">
             <div className="Courses">
                 {courses && courses.map((course) => (
@@ -138,15 +135,15 @@ const Home = () => {
             <input id="filter"
                 type="number"
                 onChange={(e)=> setPrice(e.target.value)}
-                value={subject}
+                value={price}
             />
             <button id="filterbutton" onClick={Filter2} >Filter</button>
-            <button id="filterbutton" onClick={logout} >logout</button>
             </div>
             </form>
                 <CourseForm/>
             </div>
             <SearchForm></SearchForm>
+        </div>
         </div>
 
     )

@@ -1,7 +1,9 @@
 import { useState } from "react"
 import React from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
     const Ratee = () => {
         const [rating, setRating] = useState('');
+        const {user} = useAuthContext()
         const params = new URLSearchParams(window.location.search);
         const userId = params.get('Id');
       
@@ -13,7 +15,8 @@ import React from "react";
                 method : 'POST',
                 body : JSON.stringify(rate),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
                 }
 
             } )

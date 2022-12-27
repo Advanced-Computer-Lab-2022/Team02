@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useAuthContext } from "../hooks/useAuthContext"
 const CorpTraineeForm = () => {
-    const [username,SetUsername] = useState('')
+    const {user} = useAuthContext()
+    const [UserName,SetUsername] = useState('')
     const [password,SetPassword] = useState('')
     const [error,SetError] = useState(null)
 
@@ -8,13 +10,14 @@ const CorpTraineeForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const corpTrainee = {username, password}
+        const corpTrainee = {UserName, password}
 
         const response = await fetch('Admin/addCorpTrainee', {
             method: 'POST',
             body:JSON.stringify(corpTrainee),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json()
@@ -40,7 +43,7 @@ const CorpTraineeForm = () => {
             <input
                 type="text"
                 onChange={(e)=> SetUsername(e.target.value)}
-                value={username}
+                value={UserName}
             />
             </div>
 

@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from "../hooks/useAuthContext"
 //const params = new URLSearchParams(window.location.search)
 //const courseID = params.get('Id')
 //import { Link } from 'react-router-dom';
 
 const CoursePage = ({ course }) => {
     const [Link, setfLink] = useState("")
+    const {user} = useAuthContext();
     const params = new URLSearchParams(window.location.search);
     const courseId = params.get('courseId');
     const courseTitle = params.get('courseTitle');
@@ -17,7 +19,8 @@ const CoursePage = ({ course }) => {
             method: 'POST',
             body:JSON.stringify(link),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         if (response.ok){

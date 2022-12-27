@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react"
 //import { Link } from 'react-router-dom';
-import SearchForm from '../components/SearchForm'
 import Ratee from '../components/RateInstructor'
 import {useNavigate} from 'react-router-dom'
 import CourseDetailsI from '../components/CoursedetailsI'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const Courses = () => {
     let navigate = useNavigate();
+    const {user} = useAuthContext()
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
+    const [Search, setSearch] = useState('');
     const [rating, setRating] = useState('');
     const [price, setPrice] = useState('');
 
     useEffect(()=>{
         const fetchCourses = async()=>{
-            const response = await fetch('/indTrainee/viewAllCourses')
+            const response = await fetch('/indTrainee/viewAllCourses',{
+                headers: {
+                  "Authorization": `Bearer ${user.token}` //the token is a variable which holds the token
+                }})
             const json = await response.json()
 
             if(response.ok){
@@ -23,16 +28,17 @@ const Courses = () => {
             }
         }
         fetchCourses()
-    }, [])
+    }, [user])
     const Filter = async(e) => {
         console.log(rating);
         e.preventDefault();
         const filter = {rating,subject};
-        const response = await fetch('/corTrainee/filterCoursesSR' , {
-            method : 'POST',
+        const response = await fetch('/indTrainee/filterCoursesSR' , {
+            method : 'PUT',
             body : JSON.stringify(filter),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
 
         } )
@@ -49,11 +55,12 @@ const Courses = () => {
         console.log(price);
         e.preventDefault();
         const filter = {price};
-        const response = await fetch('/Instructor/filterCoursesP' , {
+        const response = await fetch('/indTrainee/filterCoursesP' , {
             method : 'POST',
             body : JSON.stringify(filter),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
 
         } )
@@ -68,9 +75,38 @@ const Courses = () => {
     function EditClick(){
         navigate('/ChangeMyPassword')
     }
+    const handleSubmit = async(e) =>
+        {
+            e.preventDefault();
+            const search = {Search};
+            const response = await fetch('/indTrainee/Search' , {
+                method : 'POST',
+                body : JSON.stringify(search),
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
+                }
+
+            } )
+            const Courses = await response.json()
+            if(response.ok)
+            {
+                setSearch('');
+                setCourse(Courses);
+            }
+        }
     return(
         <div className="home">
             <div className="Courses">
+            <form className="create" onSubmit={handleSubmit}>
+                <label>SearchBar</label>
+                <input
+                    type="Search"
+                    onChange = {(e) => setSearch(e.target.value)}
+                    value = {Search}
+                />
+                <button id="filterbutton">Search</button>
+            </form>
                 {courses && courses.map((course) => (
                     <CourseDetailsI key={course._id} course={course}/>
                 ))}
@@ -106,7 +142,8 @@ const Courses = () => {
             </form>
             </div>
             <div>
-            <SearchForm></SearchForm>
+            <div>
+            </div>
             <br></br>
             <Ratee></Ratee>
             </div>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 const CourseDetails = ({ course }) => {
     const [showText, setShowText] = useState(false);
     const [rating, setRating] = useState('');
+    const {user} = useAuthContext()
     const [CourseId] = useState(course._id)
     const Text = () => <div>
     {course.subtitle && Array.isArray(course.subtitle) && course.subtitle.map(({name}) => <p key={course.subtitle._id}><strong>Subtitle:</strong>{name}</p>)}
@@ -19,11 +20,12 @@ const CourseDetails = ({ course }) => {
     const rateCourse= async() =>{
         const ratingg={CourseId,rating}
         console.log(ratingg)
-        const response = await fetch(`/IndTRainee/rateCourse`, {
+        const response = await fetch(`/corTrainee/rateCourse`, {
             method: 'POST',
             body:JSON.stringify(ratingg),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json

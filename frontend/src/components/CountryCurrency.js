@@ -27,7 +27,7 @@ const [countries,setCountries] = useState(Country);
   return (
     <React.Fragment>
       <section>
-        <div className="bg-white w-auto h-96 mx-5 mt-40 rounded-lg sm:w-full md:w-4/5 md:mx-auto lg:w-2/5 lg:mx-auto">
+        <div>
           {/* header section */}
           <h3>Select your country:</h3>
           {/* body section */}
@@ -50,7 +50,7 @@ const [countries,setCountries] = useState(Country);
                   );
                 })}
               </select>
-                <br></br><br></br>
+              <br></br>
               <input
                 id = "currency"
                 type="text"

@@ -5,10 +5,11 @@ var corTrainee = require ('../models/corporateTraineeModel')
 var Admin = require ('../models/administratorModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const validator = require('validator')
 
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-    return jwt.sign({ id }, 'supersecret', {
+const createToken = (_id) => {
+    return jwt.sign({ _id }, 'supersecret', {
         expiresIn: maxAge
     });
 };
@@ -23,22 +24,27 @@ const rateCourse = async(req,res) =>{
     const f = await Course.findByIdAndUpdate({_id:req.body.CourseId},{$push:{rating:rating}})
     res.status(200).json(f)
 }
-function changePassworddInd(req,res)
+async function changePassworddInd(req,res)
 {
     const passBody = req.body.password
+    console.log(passBody)
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(passBody, salt);
     indTrainee.updateOne(
-        {"_id": req.query.Id },
-        {$set: { "password" : passBody}}).then(result => {
+        {"_id": req.user },
+        {$set: { "password" : hashedPassword}}).then(result => {
             res.send();
         });
 
 }
-function changePassworddCor(req,res)
+async function changePassworddCor(req,res)
 {
     const passBody = req.body.password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(passBody, salt);
     corTrainee.updateOne(
-        {"_id": req.query.Id },
-        {$set: { "password" : passBody}}).then(result => {
+        {"_id": req.user },
+        {$set: { "password" : hashedPassword}}).then(result => {
             res.send();
         });
 
@@ -56,17 +62,23 @@ const addItrainee = async(req,res) =>
 
 const signUpI = async (req, res) => {
     const { UserName, Email, password ,FirstName,LastName,Gender} = req.body;
+    var em=0;
     const x = await indTrainee.findOne({UserName:UserName})
     const user2 = await corTrainee.findOne({UserName:UserName})
     const user3 = await Instructor.findOne({username:UserName})
     const user4 = await Admin.findOne({username:UserName})
     if(x !== null || user2 !== null  || user3 !== null  || user4 !== null)
     {
-        res.status(404).json({error: 'Username already used'})
+        res.status(404).json({error: 'Username is taken please choose another one'})
     }
     else
     {
     try {
+        if(!validator.isEmail(Email))
+        {
+            res.status(400).json({ error: 'Invalid Email' });
+            em=1;
+        }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const user = await indTrainee.create({ UserName: UserName, Email: Email, password: hashedPassword , FirstName: FirstName , LastName: LastName , Gender: Gender});
@@ -75,17 +87,21 @@ const signUpI = async (req, res) => {
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json(user)
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        if(em === 0)
+            res.status(400).json({ error: 'Please fill in all fields' })
     }
     }
 }
 
 const loginI = async (req, res) => 
 {
+    var token;
     var I = 1;
     var A = 1;
     var C = 1;
     var Ind = 1;
+    var nav = 0;
+    var id;
     const {UserName,password} = req.body;
     const user1 = await indTrainee.findOne({UserName:UserName})
     const user2 = await corTrainee.findOne({UserName:UserName})
@@ -97,7 +113,8 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user1.password))
     {
-        const token = createToken(user1._id)
+        id = user1._id
+        token = createToken(user1._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
     }
@@ -107,7 +124,8 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user2.password))
     {
-        const token = createToken(user2._id)
+        id = user2._id
+        token = createToken(user2._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
     }
@@ -117,7 +135,8 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user3.password))
     {
-        const token = createToken(user3._id)
+        id = user3._id
+        token = createToken(user3._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
     }
@@ -127,7 +146,8 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user4.password))
     {
-        const token = createToken(user4._id)
+        id = user4._id
+        token = createToken(user4._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
     }
@@ -137,24 +157,26 @@ const loginI = async (req, res) =>
     console.log('Ind:',Ind)
     if(A === 0 && I === 0 && Ind === 0 && C === 0)
     {
-        res.status(404).json({error: 'Wrong Username or password'})
+        res.status(404).json({error: 'Invalid Username or password'})
     }
-
+    else{
     if(A === 1)
     {
-        res.status(200).json("1")
+        nav = "1"
     }
     else if(I === 1)
     {
-        res.status(200).json("2")
+        nav = "2"
     }
     else if(Ind === 1)
     {
-        res.status(200).json("3")
+        nav = "3"
     }
     else if(C === 1)
     {
-        res.status(200).json("4")
+        nav = "4"
+    }
+    res.status(200).json({id,nav,token})
     }
 }
 

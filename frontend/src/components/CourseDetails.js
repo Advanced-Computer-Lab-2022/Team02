@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 const CourseDetails = ({ course }) => {
+    if(typeof course.discount === 'object')
+    {
+        var newDis= 1-(course.discount.discount/100);
+        console.log(newDis)
+    }
+    var price = course.price * newDis
     const [showText, setShowText] = useState(false);
     const [discount, setDiscount] = useState('');
     const [time, setTime] = useState('');
+    const {user} = useAuthContext()
     const [CourseId] = useState(course._id)
     const onClick = () => 
     {
@@ -12,6 +19,10 @@ const CourseDetails = ({ course }) => {
         if(showText===false)
             setShowText(true)
     } 
+    function average(nums) {
+        if(nums.length>0)
+            return nums.reduce((a, b) => (a + b)) / nums.length;
+    }
     const discountt = async(req,res) =>
     {
         const discounttt={CourseId,discount,time}
@@ -20,7 +31,8 @@ const CourseDetails = ({ course }) => {
             method: 'POST',
             body:JSON.stringify(discounttt),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json
@@ -35,16 +47,16 @@ const CourseDetails = ({ course }) => {
     const Text = () => <div>
     {course.subtitle && Array.isArray(course.subtitle) && course.subtitle.map(({name}) => <p key={course.subtitle._id}><strong>Subtitle:</strong>{name}</p>)}
     <p><strong>Exercises:</strong>{course.exercises}</p>
-    <p><strong>discount:</strong>{course.discount}</p>
+    <p><strong>discount:</strong>{course.discount.discount}</p>
     </div>;
     return(
 
         <div className="course-details">
             
                  <h4>{course.title}</h4>
-                 <p><strong>Rating:</strong>{course.rating}</p>
+                 <p><strong>Rating:</strong>{average(course.rating)}</p>
                  <p><strong>Hours:</strong>{course.hours}</p>
-                 <p><strong>Price:</strong>{course.price}</p>
+                 <p><strong>Price:</strong>{price}</p>
 
             
             <div>

@@ -5,17 +5,22 @@ import CourseDetails from '../components/CoursDetails'
 import SearchForm from '../components/SearchFormC'
 import Ratee from "../components/RateInstructor"
 import {useNavigate} from 'react-router-dom'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 
 const Courses = () => {
     let navigate = useNavigate();
+    const {user} = useAuthContext()
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
 
     useEffect(()=>{
         const fetchCourses = async()=>{
-            const response =  await fetch('/indTrainee/viewAllCourses')
+            const response =  await fetch('/corTrainee/viewAllCourses',{
+                headers: {
+                  "Authorization": `Bearer ${user.token}`
+                }})
             const json = await response.json()
 
             if(response.ok){
@@ -23,7 +28,7 @@ const Courses = () => {
             }
         }
         fetchCourses()
-    }, [])
+    }, [user])
 
     const Filter = async(e) => {
             console.log(rating);
@@ -33,7 +38,8 @@ const Courses = () => {
                 method : 'POST',
                 body : JSON.stringify(filter),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
                 }
 
             } )

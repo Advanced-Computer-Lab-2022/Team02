@@ -1,7 +1,9 @@
+import { JsonWebTokenError } from "jsonwebtoken"
 import { useState } from "react"
-
+import { useAuthContext } from "../hooks/useAuthContext"
 const ChangeMyPasswordCor =()=>{
     const [password,setPassword]=useState('')
+    const {user} = useAuthContext()
     const [error,SetError] = useState(null)
     const params = new URLSearchParams(window.location.search);
     const Id = params.get('Id');
@@ -10,14 +12,15 @@ const ChangeMyPasswordCor =()=>{
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const user = {password}
+        const userr = {password}
 
 
-        const response = await fetch(`../corTrainee/changePassword?Id=${Id}`, {
+        const response = await fetch('../corTrainee/changePassword', {
             method: 'POST',
-            body:JSON.stringify(user),
+            body:JSON.stringify(userr),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         console.log(response)

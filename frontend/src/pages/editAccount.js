@@ -1,11 +1,12 @@
 import { useState } from "react"
-
+import { useAuthContext } from "../hooks/useAuthContext"
 const EditAccount = () => {
 
     const[email,setEmail] = useState('')
     const[biography,setBio] = useState('')
     const[password,setPassword] = useState('')
     const [error,SetError] = useState(null)
+    const {user} = useAuthContext()
     const params = new URLSearchParams(window.location.search);
     const insId = params.get('Id');
     console.log(insId);
@@ -20,7 +21,8 @@ const EditAccount = () => {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         console.log(instructor)
@@ -44,7 +46,8 @@ const EditAccount = () => {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         console.log(instructor)
@@ -68,7 +71,8 @@ const EditAccount = () => {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         console.log(instructor)

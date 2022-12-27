@@ -9,6 +9,11 @@
 .error {
   color: black;
 }
+h1{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color:teal;
+  font-size: 10px;
+}
 .Contract h4{
   font-size: 40px;
   color: white;
@@ -58,6 +63,9 @@ header a {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
+}
+.currency input{
+  background-color: var(--primary);
 }
 .course-details {
   background:white;
@@ -159,14 +167,19 @@ header a {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #528009;
 }
+.field{
+  background-color: white;
+  color: black;
+  margin-left: 30px;
+}
 #loginButton{
-  box-shadow:inset 0px 1px 0px 0px #a4e271;
-	background:linear-gradient(to bottom, var(--primary), var(--primary));
-	background-color:var(--primary);
+  box-shadow:inset 0px 1px 0px 0px teal;
+	/* background:linear-gradient(to bottom, var(--primary), var(--primary)); */
+	background-color:teal;
 	border-radius:6px;
-	border:1px solid var(--primary);
-  width:10%;
-	display: block;
+	border:1px solid teal;
+  width:20%;
+	display: inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -174,9 +187,29 @@ header a {
   text-align: center;
 	padding:6px 0px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #528009;
-  margin-left: 630px;
-  margin-top: 10px;
+	text-shadow:0px 1px 0px teal;
+  /* margin-left: 630px;
+  margin-top: 10px; */
+  margin-right: 10px;
+}
+#loginButtonn{
+  box-shadow:inset 0px 1px 0px 0px teal;
+	/* background:linear-gradient(to bottom, var(--primary), var(--primary)); */
+	background-color:teal;
+	border-radius:6px;
+	border:1px solid teal;
+  width:50%;
+	display: inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size:15px;
+  text-align: center;
+	padding:6px 0px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px teal;
+  /* margin-left: 630px;
+  margin-top: 10px; */
 }
 #submitButton{
   box-shadow:inset 0px 1px 0px 0px #a4e271;
@@ -198,6 +231,10 @@ header a {
 	background-color:#77a809;
 }
 #loginButton:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
+#loginButtonn:hover {
 	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
 	background-color:#77a809;
 }
@@ -264,26 +301,32 @@ input {
   color: white;
 } 
 .Sign{
-  width: 40%;
+  width: 70%;
   padding: 10px;
+  margin-left: 40px;
   margin-bottom: 30px;
-  border: 1px solid white;
+  border: 1px solid black;
   font-size: 15px;
-  background-color: teal;
-  color: white;
+  background-color: white;
+  color:black;
 }
 .login{
-  width: 30%;
+  width: 50%;
   padding: 10px;
+  margin-left: 20px;
   margin-bottom: 20px;
-  border: 1px solid white;
+  border: 1px solid black;
   font-size: 15px;
+  background-color: white;
+  color:black;
+}
+.Searchh{
   background-color: teal;
-  color: white;
 }
 .loginn{
-  margin-left: 570px;
-  margin-top: 40px;
+  /* margin-left: 570px;
+  margin-top: 40px; */
+  color: black;
 }
 .h{
   width: 25%;
@@ -311,21 +354,39 @@ label {
 input:focus {
   outline: none;
 }
+div.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+form.signup, form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
 #currency {
   width: 10%;
   padding: 5px;
+  display: flex;
   color: black;
-  background-color:teal;
-  margin-left: 75px;
-  border: 2px solid black;
+  background-color:white;
+  margin-left: 500px;
+  margin-bottom: 0px;
+  border: 2px solid teal;
 }
 #country {
-  width: 50%;
+  width: 30%;
   padding: 5px;
+  display: flex;
   color: black;
-  background-color: teal;
-  margin-left: 75px;
-  border: 2px black;
+  background-color: white;
+  margin-left: 500px;
+  border: 2px solid teal;
 
 }
 #filter {
@@ -343,3 +404,27 @@ input:focus {
 #whiteBack{
   background-color: white;
 }
+
+nav {
+  display: flex;
+  align-items: center;
+}
+nav a {
+  margin-left: 10px;
+}
+nav span {
+  color: black;
+}
+nav button {
+  background: #fff;
+  color: teal;
+  border: 2px solid teal;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: "Poppins";
+  cursor: pointer;
+  font-size: 1em;
+}
+
+
+

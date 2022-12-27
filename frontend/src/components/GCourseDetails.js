@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
 const CourseDetails = ({ course }) => {
     const [showText, setShowText] = useState(false);
-    const {user} = useAuthContext();
-    const [rating, setRating] = useState('');
-    const [CourseId] = useState(course._id)
     const onClick = () => 
     {
         if(showText===true)
@@ -16,25 +12,7 @@ const CourseDetails = ({ course }) => {
         if(nums.length>0)
             return nums.reduce((a, b) => (a + b)) / nums.length;
     }
-    
-    const rateCourse= async() =>{
-        const ratingg={CourseId,rating}
-        console.log(ratingg)
-        const response = await fetch(`/indTrainee/rateCourse`, {
-            method: 'POST',
-            body:JSON.stringify(ratingg),
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${user.token}`
-            }
-        })
-        const json= await response.json
 
-        if (response.ok){
-            setRating('')
-            console.log('Course Rated',json)
-        }
-    }
     
     
     const Text = () => <div>
@@ -55,15 +33,8 @@ const CourseDetails = ({ course }) => {
             <div>
             <button className="myButton"onClick={onClick}>viewAllDetails</button>
             {showText ? <Text /> : null}
-            </div>
-            <input
-                className="h"
-                type="number"
-                onChange={(e)=> setRating(e.target.value)}
-                value={rating}
-            />
-            <button className="myButton" onClick={rateCourse}>Rate</button>
             <br></br>
+            </div>
             <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Go to course</button>
         </div>
 

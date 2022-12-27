@@ -1,5 +1,7 @@
 import { useState } from "react"
+import { useAuthContext } from "../hooks/useAuthContext"
 const AdministratorForm = () => {
+    const {user} = useAuthContext();
     const [username,SetUsername] = useState('')
     const [password,SetPassword] = useState('')
     const [error,SetError] = useState(null)
@@ -14,7 +16,8 @@ const AdministratorForm = () => {
             method: 'POST',
             body:JSON.stringify(administrator),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json()
@@ -32,7 +35,7 @@ const AdministratorForm = () => {
 
     return(
         <div className="adminCreate">
-        <form className="create" onSubmit={handleSubmit}>
+        <form  onSubmit={handleSubmit}>
             <h3>Add a New Administrator</h3>
 
             <div>

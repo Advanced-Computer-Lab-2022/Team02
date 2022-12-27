@@ -39,12 +39,11 @@ const courseSchema = new Schema({
         type:Object
     },
     rating:{
-        type:[Number],
-        
+        type:[Number],  
     },
     instructorID:{
-        type:String,
-        required:true
+        type:mongoose.Types.ObjectId,
+        ref:'instructors'
     },
     reviews:{
         type:[String]

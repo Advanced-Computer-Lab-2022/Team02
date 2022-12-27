@@ -74,19 +74,21 @@ async function addInstructor(req,res){
 async function addCorporateTrainee(req,res){
     var CorpTrainee = new CorporateTrainee()
     CorpTrainee.UserName = req.body.UserName
+    console.log(req.body.UserName)
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     CorpTrainee.password = hashedPassword
     
-    const x = await indTrainee.findOne({UserName:req.body.username})
-    const user2 = await CorporateTrainee.findOne({UserName:req.body.username})
-    const user3 = await Instructor.findOne({username:req.body.username})
-    const user4 = await Admin.findOne({username:req.body.username})
+    const x = await indTrainee.findOne({UserName:req.body.UserName})
+    const user2 = await CorporateTrainee.findOne({UserName:req.body.UserName})
+    const user3 = await Instructor.findOne({username:req.body.UserName})
+    const user4 = await Admin.findOne({username:req.body.UserName})
     if(x !== null || user2 !== null  || user3 !== null  || user4 !== null)
     {
         res.status(404).json({error: 'Username already used'})
     }
     else{
+    console.log(CorpTrainee)
     return await CorporateTrainee.create(CorpTrainee).then(function(users)
     {
         res.send(JSON)

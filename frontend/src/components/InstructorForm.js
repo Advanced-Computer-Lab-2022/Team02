@@ -1,5 +1,7 @@
 import { useState } from "react"
+import { useAuthContext } from "../hooks/useAuthContext"
 const InstructorForm = () => {
+    const {user} = useAuthContext()
     const [username,SetUsername] = useState('')
     const [password,SetPassword] = useState('')
     const [error,SetError] = useState(null)
@@ -14,7 +16,8 @@ const InstructorForm = () => {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const json= await response.json()

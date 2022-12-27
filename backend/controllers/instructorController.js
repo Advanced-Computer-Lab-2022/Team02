@@ -35,7 +35,7 @@ async function addCourse(req,res)
     cours.hours=req.body.hours
     cours.price = req.body.price
     cours.rating = req.body.rating
-    cours.instructorID = req.query.Id;
+    cours.instructorID = req.user;
     console.log(id)
 
     return Course.create(cours).then(async function(users)
@@ -54,15 +54,11 @@ const addSub = async(req,res) => {
 
 const viewCourses = async (req,res) =>
 {
-    const ID = req.query.Id
-    const courses = await Course.find({instructorID:{ $eq: ID}},{title:1,rating:1,price:1,reviews:1})
-    if(!courses)
-    {
-        res.status(404).json({error:'No results found'})
-    }
-    res.status(200).json(courses)
-    
-
+    const ID = req.user
+    const courses = await Course.find({instructorID:{ $eq: ID}},{title:1,rating:1,price:1,reviews:1}) 
+    res.status(200).json(courses); 
+    // if(courses)
+    //     //res.status(200).json(courses)
 }
 const filterCourses = async (req,res) =>
 {
@@ -128,13 +124,13 @@ const getMyReviews = async(req,res) =>{
     res.status(200).json(f.reviews)
 
 }
-function editBio(req,res)
+async function editBio(req,res)
 {
     const bioBody = req.body.biography
-    Instructor.updateOne(
+    const f = await Instructor.updateOne(
         {"_id": req.query.Id },
         {$set: { "biography" : `${bioBody}`}}).then(result => {
-            res.send();
+            res.status(200).send(f);
         });
     
 }

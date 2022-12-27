@@ -1,9 +1,11 @@
 import { useState } from "react"
 import React from "react";
 import SearchDetails from "../components/SearchDetails"
+import { useAuthContext } from "../hooks/useAuthContext";
     const Searchh1 = () => {
         const [Search, setSearch] = useState('');
         const [Courses, setCourses] = useState('');
+        const {user} = useAuthContext()
         const params = new URLSearchParams(window.location.search);
         const userId = params.get('Id');
        
@@ -16,7 +18,8 @@ import SearchDetails from "../components/SearchDetails"
                 method : 'POST',
                 body : JSON.stringify(search),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
                 }
             } )
             const Courses = await response.json()
