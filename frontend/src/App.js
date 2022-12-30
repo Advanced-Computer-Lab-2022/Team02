@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route ,Navigate} from 'react-router-dom'
 
 import Ins from './pages/Instructor'
 import Navbar from './components/Navbar'
 import Admin from './pages/Admin'
+import { useAuthContext } from './hooks/useAuthContext'
 import Ind from './pages/IndividualTrainee'
 import Corporate from './pages/Corporate'
 import HomePage from './pages/HomePage'
@@ -19,6 +20,7 @@ import SignUp from './pages/SignUp'
 import Policy from './pages/Policy'
 
 function App() {
+  const {user} = useAuthContext()
   return (
     <div className="App">
       <BrowserRouter>
@@ -28,11 +30,11 @@ function App() {
           <Route
           //indvidual and guest
           path="/inTrainee"
-          element={<Ind/>}
+          element={user ? <Ind/> : <Navigate to="/"/>}
           />
             <Route
          path='/'
-         element= {<HomePage/>}
+         element= {!user ? <HomePage/> : <Navigate to="/Instructor"/>}
             />
             <Route
          path='/signUp'
@@ -40,19 +42,19 @@ function App() {
             />
           <Route
             path="/Instructor"
-            element={<Ins/>}
+            element={user ? <Ins/> : <Navigate to="/"/>}
           />
           <Route
             path="/admin"
-            element={<Admin/>}
+            element={user ? <Admin/> : <Navigate to="/"/>}
           />
           <Route
             path="/corTrainee"
-            element={<Corporate/>}
+            element={user ? <Corporate/> : <Navigate to="/"/>}
           />
           <Route
             path="/InstructorCourses"
-            element={<InstructorCourses/>}
+            element={user ? <InstructorCourses/> : <Navigate to="/"/>}
           />
           <Route
             path="/Guest"
@@ -72,23 +74,23 @@ function App() {
           />
           <Route
             path="/CreateQuiz"
-            element={<QuizCrea/>}
+            element={user ? <QuizCrea/> : <Navigate to="/"/>}
           />
           <Route
           path="/ChangeMyPassword"
-          element={<ChangeMyPassword/>}
+          element={user ? <ChangeMyPassword/> : <Navigate to="/"/>}
           />
           <Route
           path="/ChangeMyPasswordCor"
-          element={<ChangeMyPasswordCor/>}
+          element={user ? <ChangeMyPasswordCor/> : <Navigate to="/"/>}
           />
           <Route
             path="/EditAccount"
-            element={<EditAccount/>}
+            element={user ? <EditAccount/> : <Navigate to="/"/>}
           />
           <Route
             path="/Policy"
-            element={<Policy/>}
+            element={user ? <Policy/> : <Navigate to="/"/>}
           />
         </Routes>
       </div>

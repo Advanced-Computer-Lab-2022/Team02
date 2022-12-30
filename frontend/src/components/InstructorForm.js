@@ -34,8 +34,8 @@ const InstructorForm = () => {
     }
 
     return(
-        <div className="adminCreate">
-        <form onSubmit={handleSubmit}>
+        <div>
+        <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Instructor</h3>
             <div>
             <label>Instructor Username:</label>

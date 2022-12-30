@@ -34,8 +34,8 @@ const AdministratorForm = () => {
     }
 
     return(
-        <div className="adminCreate">
-        <form  onSubmit={handleSubmit}>
+        <div>
+        <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Administrator</h3>
 
             <div>

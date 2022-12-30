@@ -113,13 +113,13 @@ const addDiscount = async (req,res) =>
     res.status(200).json(f)
 }
 const getMyRating = async(req,res) =>{
-    const ID = req.query.Id
+    const ID = req.user
     const f = await Instructor.findById({_id:ID},{_id:0,rating:1})
     res.status(200).json(f.rating)
     
 }
 const getMyReviews = async(req,res) =>{
-    const ID = req.query.Id
+    const ID = req.user
     const f = await Instructor.findById({_id:ID},{_id:0,reviews:1})
     res.status(200).json(f.reviews)
 
@@ -128,9 +128,9 @@ async function editBio(req,res)
 {
     const bioBody = req.body.biography
     const f = await Instructor.updateOne(
-        {"_id": req.query.Id },
+        {"_id": req.user },
         {$set: { "biography" : `${bioBody}`}}).then(result => {
-            res.status(200).send(f);
+            res.status(200).send('Biography edited');
         });
     
 }
@@ -138,18 +138,20 @@ function editEmail(req,res)
 {
     const emailBody = req.body.email
         Instructor.updateOne(
-            {"_id": req.query.Id },
+            {"_id": req.user },
             {$set: { "email" : `${emailBody}`}}).then(result => {
-                res.send();
+                res.status(200).json("Email Edited");
             });
 }
 
-function changePassword(req,res)
+async function changePassword(req,res)
 {
     const passBody = req.body.password
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(passBody, salt);
     Instructor.updateOne(
-        {"_id": req.query.Id },
-        {$set: { "password" : passBody}}).then(result => {
+        {"_id": req.user },
+        {$set: { "password" : hashedPassword}}).then(result => {
             res.send();
         });
 
@@ -190,33 +192,29 @@ const getallusers = async(req,res) => {
     res.status(200).json(x);
 }
 
-const logout = async (req, res) => {
-    res.cookie("jwt", "", {
-        httpOnly: true, 
-        secure: true,
-        sameSite: "none",    
-        expires: new Date(1)
-    });
-    res.send("cookie cleared")
-}
 
-const login = async (req, res) => 
+const fetchAccount = async(req,res) => 
 {
-    const {username,password} = req.body;
-    const user = await Instructor.findOne({username:username})
-    console.log(await bcrypt.compare(password,user.password))
-    if(user === null || !await bcrypt.compare(password,user.password))
-    {
-        res.status(404).json({error: 'Wrong Username or password'})
-    }
-    else if(await bcrypt.compare(password,user.password))
-    {
-        const token = createToken(user._id)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        console.log(token) 
-        res.status(200).json(user)
-    }
+    const Ins = await Instructor.findOne({_id:req.user})
+    console.log(Ins)
+    res.status(200).json(Ins);
 }
 
+const checkAccepted = async(req,res) =>
+{
+    const Ins = await Instructor.findOne({_id:req.user}).select('acceptedContract')
+    console.log(Ins)
+    if(Ins.acceptedContract === 1)
+         res.status(200).json("Instructor");
+    else
+        res.status(404).json("please accept contract")
+}
 
-module.exports={getallusers,addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion,login,logout}
+const acceptContract = async(req,res) =>
+{
+    await Instructor.updateOne({_id:req.user},{$set:{acceptedContract:1}})
+    console.log("hello")
+    res.status(200).json("Contract accepted")
+}
+
+module.exports={fetchAccount,checkAccepted,acceptContract,getallusers,addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion}

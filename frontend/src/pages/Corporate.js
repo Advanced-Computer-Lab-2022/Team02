@@ -9,11 +9,15 @@ import { useAuthContext } from "../hooks/useAuthContext"
 
 
 const Courses = () => {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('Id');
     let navigate = useNavigate();
     const {user} = useAuthContext()
+    const [Search, setSearch] = useState('');
     const [courses, setCourse] = useState(null)
     const [subject, setSubject] = useState('');
     const [rating, setRating] = useState('');
+    const [ratingg, setRatingg] = useState('');
 
     useEffect(()=>{
         const fetchCourses = async()=>{
@@ -27,7 +31,8 @@ const Courses = () => {
                 setCourse(json)
             }
         }
-        fetchCourses()
+        if(user)
+            fetchCourses()
     }, [user])
 
     const Filter = async(e) => {
@@ -55,20 +60,74 @@ const Courses = () => {
         function EditClick(){
             navigate('/ChangeMyPasswordCor')
         }
+        const handleSubmit = async(e) =>
+        {
+            e.preventDefault();
+            const search = {Search};
+            const response = await fetch('/corTrainee/Search' , {
+                method : 'POST',
+                body : JSON.stringify(search),
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
+                }
+
+            } )
+            const Courses = await response.json()
+            if(response.ok)
+            {
+                setSearch('');
+                setCourse(Courses);
+            }
+        }
+        const handleSubmitt = async(e) =>
+        {
+            e.preventDefault();
+            const rate = {ratingg};
+            const response = await fetch(`/corTrainee/rateInstructor?Id=${userId}`, {
+                method : 'POST',
+                body : JSON.stringify(rate),
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${user.token}`
+                }
+
+            } )
+            if(response.ok)
+            {
+                setRatingg('');
+            }
+        }
+
     return(
         <div className="home">
             <div className="Courses">
+            <a onClick={EditClick}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Edit Account
+            </a>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <form className="create" onSubmit={handleSubmit}>
+            <label>SearchBar</label>
+                <input
+                    type="Search"
+                    onChange = {(e) => setSearch(e.target.value)}
+                    value = {Search}
+                />
+                <button id="filterbutton">Search</button>
+            </form>
                 {courses && courses.map((course) => (
                     <CourseDetails key={course._id} course={course}/>
                 ))}
             </div>
             <div>
-                <SearchForm></SearchForm>
-                <br></br>
-                <Ratee></Ratee>
-            </div>
             <form className="create">
-            <button id="filterbutton"onClick={EditClick}>Edit Account</button>
             <br></br>
             <div>
             <label>Rating</label>
@@ -89,6 +148,17 @@ const Courses = () => {
             <button id="filterbutton" onClick={Filter} >Filter</button>
             </div>
             </form>
+            <br></br>
+            <form className="create" onSubmit={handleSubmitt}>
+                <label>Rate Instructor</label>
+                <input
+                    type="number"
+                    onChange = {(e) => setRatingg(e.target.value)}
+                    value = {ratingg}
+                />
+                <button id="filterbutton">Rate</button>
+            </form>
+            </div>
         </div>
 
     )

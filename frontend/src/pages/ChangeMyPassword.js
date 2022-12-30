@@ -1,13 +1,29 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
+
 const ChangeMyPassword =()=>{
     const [password,setPassword]=useState('')
     const [error,SetError] = useState(null)
+    const [info,setInfo] = useState(null)
     const {user} = useAuthContext()
-    const params = new URLSearchParams(window.location.search);
-    const Id = params.get('Id');
-    console.log(Id);
 
+    useEffect(()=>{
+    const getAccount = async() => {
+        const response = await fetch('../indTrainee/Account', {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
+        })
+        const json = await response.json();
+        console.log(json)
+        if (response.ok){
+            setInfo(json)
+        }
+    }
+    if(user)
+        getAccount();
+    }, [user])
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -36,6 +52,14 @@ const ChangeMyPassword =()=>{
     return(
         <div>
         <form className="Change Password" onSubmit={handleSubmit}>
+            {info && <div>
+            <p id="account"><strong>Email:</strong>{info.Email}</p>
+            <p id="account" type="password"><strong>Password:</strong>{info.password}</p>
+            <p id="account"><strong>Username:</strong>{info.UserName}</p>
+            <p id="account"><strong>FirstName:</strong>{info.FirstName}</p>
+            <p id="account"><strong>LastName:</strong>{info.LastName}</p>
+            <p id="account"><strong>Gender:</strong>{info.Gender}</p>
+            </div>}
             <h3>Change My Password</h3>
 
             <label>New Password:</label>

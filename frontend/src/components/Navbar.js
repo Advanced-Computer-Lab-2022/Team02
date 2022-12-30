@@ -20,20 +20,39 @@ const Navbar = () => {
     return(
         <header>
             <div className="container">
-                <Link to="/">
-                    <h1>
+                    <h3>
                         Learning App
-                    </h1>
-                </Link>
+                        
+                    </h3>
                 <nav>
+                
                 <CountryCurrency></CountryCurrency>
                 {user && (<div>
-                <span>{user.id}</span>
-                <button onClick={logoutt} >Logout</button>
+                <h3 id="f">{user.email}</h3>
+                <a id="f" onClick={logoutt}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Logout
+                </a>
                 </div>)}
                 {!user && (<div>
-                <Link to="/">Login</Link>   
-                <Link to="/SignUp">SignUp</Link>  
+                
+                <Link id="f" to="/">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Login
+                    </Link>   
+                <Link id="f" to="/SignUp">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    SignUp
+                    </Link>  
                 </div>)}
                 </nav>
             </div>

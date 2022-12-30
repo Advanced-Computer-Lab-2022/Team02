@@ -34,7 +34,7 @@ const CorpTraineeForm = () => {
     }
 
     return(
-        <div className="adminCreate">
+        <div>
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Corporate Trainee</h3>
 

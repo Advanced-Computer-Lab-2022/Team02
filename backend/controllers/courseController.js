@@ -8,12 +8,12 @@ const Search = async (req,res) =>
 {
         var courses
         const Search  = req.body.Search
-        const ids = await Course.find({username:{$eq:Search}}).select('_id')
+        const ids = await Instructor.find({username:{$eq:Search}}).select('_id')
         console.log(Search);
         console.log(ids)
 
             courses = await Course.find().or([{title:{ $regex: Search, $options: "i"}},{subject:{ $regex: Search, $options: "i"}},{instructorID:{ $in: ids}}])
-            console.log(JSON.stringify(Search))
+            console.log(courses)
         
         if(!courses)
         {

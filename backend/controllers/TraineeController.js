@@ -7,15 +7,16 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const validator = require('validator')
 
-const maxAge = 3 * 24 * 60 * 60;
+
+const maxAge = 60 * 60 * 4;
 const createToken = (_id) => {
-    return jwt.sign({ _id }, 'supersecret', {
+    return jwt.sign({ _id },process.env.SECRET, {
         expiresIn: maxAge
     });
 };
 
 const rateInstructor = async(req,res) =>{
-    const rating = req.body.rating
+    const rating = req.body.ratingg
     const f = await Instructor.findByIdAndUpdate({_id:req.query.Id},{$push:{rating:rating}})
     res.status(200).json(f)
 }
@@ -96,6 +97,7 @@ const signUpI = async (req, res) => {
 const loginI = async (req, res) => 
 {
     var token;
+    var email;
     var I = 1;
     var A = 1;
     var C = 1;
@@ -113,6 +115,7 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user1.password))
     {
+        email = "Trainee"
         id = user1._id
         token = createToken(user1._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -124,6 +127,7 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user2.password))
     {
+        email = "Corporate"
         id = user2._id
         token = createToken(user2._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -135,6 +139,7 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user3.password))
     {
+        email = "Instructor"
         id = user3._id
         token = createToken(user3._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -146,6 +151,7 @@ const loginI = async (req, res) =>
     }
     else if(await bcrypt.compare(password,user4.password))
     {
+        email = "Admin"
         id = user4._id
         token = createToken(user4._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -176,7 +182,7 @@ const loginI = async (req, res) =>
     {
         nav = "4"
     }
-    res.status(200).json({id,nav,token})
+    res.status(200).json({id,nav,token,email})
     }
 }
 
@@ -208,4 +214,17 @@ const loginC = async (req, res) =>
     }
 }
 
-module.exports= {rateInstructor,rateCourse,changePassworddInd,changePassworddCor,addItrainee,signUpI,loginI,logout,loginC};
+const fetchIndAccount = async(req,res) => 
+{
+    const Trainee = await indTrainee.find({_id:req.user})
+    console.log(Trainee)
+    res.status(200).json(Trainee[0]);
+}
+const fetchCorAccount = async(req,res) => 
+{
+    const Trainee = await corTrainee.findOne({_id:req.user})
+    console.log(Trainee)
+    res.status(200).json(Trainee);
+}
+
+module.exports= {rateInstructor,rateCourse,changePassworddInd,changePassworddCor,addItrainee,signUpI,loginI,logout,loginC,fetchIndAccount,fetchCorAccount};

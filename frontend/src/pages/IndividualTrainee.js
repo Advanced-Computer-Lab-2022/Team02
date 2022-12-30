@@ -16,9 +16,10 @@ const Courses = () => {
 
     useEffect(()=>{
         const fetchCourses = async()=>{
+            
             const response = await fetch('/indTrainee/viewAllCourses',{
                 headers: {
-                  "Authorization": `Bearer ${user.token}` //the token is a variable which holds the token
+                    "Authorization": `Bearer ${user.token}` //the token is a variable which holds the token
                 }})
             const json = await response.json()
 
@@ -26,7 +27,8 @@ const Courses = () => {
                 setCourse(json)
 
             }
-        }
+    }
+    if(user)
         fetchCourses()
     }, [user])
     const Filter = async(e) => {
@@ -98,6 +100,17 @@ const Courses = () => {
     return(
         <div className="home">
             <div className="Courses">
+            <a onClick={EditClick}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Edit Account
+                </a>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <form className="create" onSubmit={handleSubmit}>
                 <label>SearchBar</label>
                 <input
@@ -110,8 +123,9 @@ const Courses = () => {
                 {courses && courses.map((course) => (
                     <CourseDetailsI key={course._id} course={course}/>
                 ))}
-            <form className="create">
-            <button id="filterbutton"onClick={EditClick}>Edit Account</button>
+            </div>
+            <div>
+            <br></br>
             <div className="block">
             <label>Rating</label>
             <input id="filter"
@@ -129,7 +143,10 @@ const Courses = () => {
             />
             <button id="filterbutton" onClick={Filter} >Filter</button>
             </div>
-
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <div className="block">
             <label>Price</label>
             <input id="filter"
@@ -138,14 +155,12 @@ const Courses = () => {
                 value={price}
             />
             <button id="filterbutton" onClick={Filter2} >Filter</button>
-            </div>
-            </form>
-            </div>
-            <div>
-            <div>
-            </div>
+            <br></br>
+            <br></br>
+            <br></br>
             <br></br>
             <Ratee></Ratee>
+            </div>
             </div>
         </div>
 

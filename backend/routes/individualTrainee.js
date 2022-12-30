@@ -19,6 +19,7 @@ router.post('/addItrainee',Trainee.addItrainee)
 router.post('/signUp',Trainee.signUpI)
 router.post('/login',Trainee.loginI)
 router.post('/logout',Trainee.logout)
+router.get('/Account',Trainee.fetchIndAccount)
 
 
 

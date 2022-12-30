@@ -10,10 +10,15 @@ const Admin = () => {
 
 
     return(
-        <div className="block">
+        <div className="home">
+            <div className="courses">
+
+            </div>
+            <div>
             <InstructorForm/>
             <AdministratorForm/>
             <CorpTraineeForm/>
+            </div>
         </div>
 
     )

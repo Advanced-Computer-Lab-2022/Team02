@@ -1,17 +1,64 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
 const EditAccount = () => {
 
     const[email,setEmail] = useState('')
+    const [info,setInfo] = useState(null)
     const[biography,setBio] = useState('')
     const[password,setPassword] = useState('')
     const [error,SetError] = useState(null)
+    const [error1,SetError1] = useState(null)
+    const [error2,SetError2] = useState(null)
+    const [rating, setRating] = useState([]);
+    const [reviews, setReviews] = useState([]);
     const {user} = useAuthContext()
     const params = new URLSearchParams(window.location.search);
     const insId = params.get('Id');
     console.log(insId);
 
-    const handleSubmit1 = async (e) => {
+    useEffect(()=>{
+        const getAccount = async() => {
+            const response = await fetch('../Instructor/fetchAccount', {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json();
+            console.log(json)
+            if (response.ok){
+                setInfo(json)
+            }
+        }
+        const getRating = async() => {
+            const response = await fetch(`/Instructor/getMyRating`,{
+                headers:{"Authorization": `Bearer ${user.token}`}
+            })
+            const rate = await response.json()
+            console.log(rate);
+            if(response.ok)
+            {
+                setRating(rate)
+            }
+        }
+        const getReviews = async() => {
+            const response = await fetch(`/Instructor/getMyReviews`,{
+                headers:{"Authorization": `Bearer ${user.token}`}
+            })
+            const review = await response.json()
+            console.log(review);
+            if(response.ok)
+            {
+                setReviews(review)
+            }
+        }
+        if(user){
+            getAccount();
+            getRating()
+            getReviews()
+        }
+        }, [user])
+        const handleSubmit1 = async (e) => {
         e.preventDefault()
 
         const instructor = {email}
@@ -33,7 +80,7 @@ const EditAccount = () => {
         if (response.ok){
             setEmail('')
             SetError(null)
-            console.log('Email Edited')
+            alert('Email Edited')
         }
     }
     const handleSubmit = async (e) => {
@@ -53,11 +100,12 @@ const EditAccount = () => {
         console.log(instructor)
 
         if (!response.ok){
-            SetError()
+            SetError1()
         }
         if (response.ok){
             setBio('')
-            SetError(null)
+            SetError1(null)
+            alert('Biography Edited')
             console.log('Changes Done')
         }
     }
@@ -78,17 +126,28 @@ const EditAccount = () => {
         console.log(instructor)
 
         if (!response.ok){
-            SetError()
+            SetError2()
         }
         if (response.ok){
             setPassword('')
-            SetError(null)
+            SetError2(null)
             console.log('Changes Done')
         }
     }
-
+    function average(nums) {
+        if(nums.length>0)
+            return nums.reduce((a, b) => (a + b)) / nums.length;
+    }
     return(
         <div>
+        {info && <div>
+            <p id="account"><strong>Email:</strong>{info.email}</p>
+            <p id="account" type="password"><strong>Password:</strong>{info.password}</p>
+            <p id="account"><strong>Username:</strong>{info.username}</p>
+            <p id="account"><strong>Biography:</strong>{info.biography}</p>
+            <p id="account"><strong>My Rating:</strong>{average(rating)}</p>
+            <p id="account"><strong>My Reviews:</strong>{reviews.join('-')}</p>
+            </div>}
         <form className="Edit" onSubmit={handleSubmit1}>
             <h3>Edit Account</h3>
 
@@ -111,7 +170,7 @@ const EditAccount = () => {
             />
 
             <button id="filterbutton">Edit Biography</button>
-            {error && <div className="error">{error}</div>}
+            {error && <div className="error">{error1}</div>}
         </form>
         <form className="Edit" onSubmit={handleSubmit2}>
             <h3>Change Password</h3>
@@ -123,7 +182,7 @@ const EditAccount = () => {
             />
 
             <button id="filterbutton">Change Password</button>
-            {error && <div className="error">{error}</div>}
+            {error && <div className="error">{error2}</div>}
         </form>
 
         </div>

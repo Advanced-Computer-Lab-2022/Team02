@@ -11,23 +11,21 @@ const instructorSchema = new Schema({
         type:String,
         required:true
     },
-    country:{
-        type:String,
-        
-    },
     email:{
         type:String,
-
     },
     biography:{
         type:String,
-        
     },
     rating:{
         type:[Number]
     },
     reviews:{
         type:[String]
+    },
+    acceptedContract:{
+        type:Number,
+        default:0
     }
 
 

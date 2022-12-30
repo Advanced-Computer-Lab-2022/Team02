@@ -7,6 +7,7 @@ const CheckLogin = require('../middleware/CheckLogin')
 router.use(CheckLogin.InstructorLogin)
 router.post('/addCourse',Instruct.addCourse)
 router.get('/viewMyCourses',Instruct.viewCourses)
+router.get('/fetchAccount',Instruct.fetchAccount)
 router.post('/filterMyCourses',Instruct.filterCourses)
 router.post('/SearchMyCourses',Instruct.InstructSearch)
 router.get('/viewAllCourses',Course.viewCourses)
@@ -18,6 +19,8 @@ router.post('/addSub',Instruct.addSub)
 router.post('/addDiscount',Instruct.addDiscount)
 router.get('/getMyRating',Instruct.getMyRating)
 router.get('/getMyReviews',Instruct.getMyReviews)
+router.get('/checkAccepted',Instruct.checkAccepted)
+router.post('/Accept',Instruct.acceptContract)
 router.post('/instructorLink',Course.Link)
 router.get('/getLink',Course.getLink)
 router.post('/editBio',Instruct.editBio)
@@ -26,6 +29,4 @@ router.post('/changePassword',Instruct.changePassword)
 router.post('/createQuiz',Instruct.CreateQuiz)
 router.post('/createQuestion',Instruct.CreateQuestion)
 router.post('/allUsers',Instruct.getallusers);
-router.post('/login',Instruct.login);
-router.post('/logout',Instruct.logout);
 module.exports=router

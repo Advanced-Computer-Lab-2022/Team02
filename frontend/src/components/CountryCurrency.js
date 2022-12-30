@@ -1,45 +1,58 @@
 import React, {useState} from "react";
 import Country from "../Country.json";
+import Currency from "../Currency.json";
 import { v4 as uuidv4 } from "uuid";
 
 const CountryCurrency = () => {
 
 const [countries,setCountries] = useState(Country);
-  console.log("countries", countries);
+const [rates,setRate] = useState(Currency);
 
-  const [searchCountry, setSearchCountry] = useState();
-  console.log("searchCountry", searchCountry);
+console.log("countries", countries);
+console.log("rates", rates);
 
-  const [city, setCity] = useState()
+const [searchCountry, setSearchCountry] = useState();
+console.log("searchCountry", searchCountry);
+const [city, setCity] = useState('')
+console.log("Currency",city)
+const [rate,setRatee] = useState("")
+console.log("Rate",rate)
 
-  console.log(city)
-
-
-  const capital = countries.find((obj) => {
-    if (obj.country === searchCountry) {
-      return true;
-    }
-    return false;
-  });
-
-  console.log("capital", capital);
+function ratte()
+  {
+    var t = document.getElementById("country").value
+    setSearchCountry(t)
+    for (let index = 0; index < countries.length; index++) 
+    {
+      const element = countries[index];
+      if(element.country == t)
+      {
+        setCity(element.currency_code)
+        for (let index = 0; index < rates.length; index++) 
+        {
+          const elem = rates[index];
+          if(element.currency_code == elem.code)
+            setRatee(elem.rate)
+        }
+      }
+    }  
+  }
 
   return (
     <React.Fragment>
       <section>
         <div>
           {/* header section */}
-          <h3>Select your country:</h3>
+          
           {/* body section */}
           <div className="grid justify-center mt-14 mx-5">
             <div className="space-y-10">
               <select
                id="country"
                value={searchCountry}
-               onChange={(e) => setSearchCountry(e.target.value)}
-               className=" w-full h-14 text-xl rounded-lg">
+               onChange={ratte}>
                 <option value="" hidden>
-                  --Select Country--
+                  Select Country
                 </option>
                 {
                 countries.map((item) => {
@@ -55,9 +68,8 @@ const [countries,setCountries] = useState(Country);
                 id = "currency"
                 type="text"
                 placeholder="Currency"
-                className="w-full h-14 text-xl rounded-lg"
-                value={ capital && capital.currency_code || ""}
-                onChange={e =>setCity(e.target.value)}
+                value={city}
+                onChange={ratte}
               />
             </div>
           </div>

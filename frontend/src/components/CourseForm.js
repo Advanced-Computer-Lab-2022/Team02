@@ -32,7 +32,7 @@ const CourseForm = () => {
                 "Authorization": `Bearer ${user.token}`
             }
         })
-        const json= await response.json
+        const json= await response.json()
 
         if (!response.ok){
             SetError(json.error)
@@ -51,7 +51,7 @@ const CourseForm = () => {
     }
 
     return(
-        <form className="create" onSubmit={handleSubmit}>
+        <div className="create">
             <h3>Add a New Course</h3>
             <div>
             <label>Course Title</label>
@@ -116,10 +116,10 @@ const CourseForm = () => {
             />
             </div>
 
-            <button id="addCourseButton">Add Course</button>
+            <button id="addCourseButton" onClick={handleSubmit}>Add Course</button>
             {error && <div className="error">{error}</div>}
           
-        </form>
+        </div>
         
 
     )

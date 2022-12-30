@@ -11,6 +11,8 @@ router.post('/Search',Course.Search)
 router.post('/changePassword',Trainee.changePassworddCor)
 router.post('/login',Trainee.loginC)
 router.post('/logout',Trainee.logout)
+router.post('/rateInstructor',Trainee.rateInstructor)
+router.get('/Account',Trainee.fetchCorAccount)
 
 
 
