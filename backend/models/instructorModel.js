@@ -26,6 +26,14 @@ const instructorSchema = new Schema({
     acceptedContract:{
         type:Number,
         default:0
+    },
+    reports:[{
+        type:mongoose.Types.ObjectId,
+        ref:'reports'
+    }],
+    AdministratorID:{
+        type:mongoose.Types.ObjectId,
+        ref:'administrators'
     }
 
 

@@ -3,6 +3,11 @@ var app = require ('express')
 const mongoose=require('mongoose')
 var Course = require ('../models/courseModel')
 var Instructor = require('../models/instructorModel')
+var Subtitle = require('../models/subtitleModel')
+var Quiz = require ('../models/quizModel')
+var indTrainee= require('../models/IndividualTrainee')
+var Question = require('../models/questionModel')
+
 
 const Search = async (req,res) =>
 {
@@ -145,10 +150,68 @@ const getLink = async (req,res) =>
         res.status(200).json(courses[0])
     
 }
+const addSubtitle = async (req,res) =>
+{       
+    const CourseId = req.query.courseId
+    var subtitl = new Subtitle();
+    subtitl.name = req.body.name
+    subtitl.hours = req.body.hours
+    subtitl.description=req.body.description
+    subtitl.link = req.body.link
+    const s = await Subtitle.create(subtitl)
+    const id = await Subtitle.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    console.log(id)
+    await Course.updateOne({_id:CourseId},{$push:{subtitle:id}})
+
+}
+const viewSubtitles = async (req,res) =>
+{
+    const courseSub = await Course.find({_id:{$eq:req.query.courseId}},{_id:0,subtitle:1}).populate('subtitle')
+    if(!courseSub)
+    {
+        res.status(404).json({error:'No Subtitles available'})
+    }
+    res.status(200).json(courseSub[0].subtitle)
+
+    
+}
+const viewSubtitlesVid = async (req,res) =>
+{
+    const subVid = await Subtitle.find({_id:{$eq:req.query.subtitleId}},{_id:0,link:1})
+    if(!subVid)
+    {
+        res.status(404).json({error:'No Video'})
+    }
+    res.status(200).json(subVid[0])
+
+    
+}
+const viewExercises = async(req,res)=>
+{
+    const courseEx = await Course.find({_id:{$eq:req.query.courseId}},{_id:0,exercises:1}).populate('exercises')
+    if(!courseEx)
+    {
+        res.status(404).json({error:'No Subtitles available'})
+    }
+    res.status(200).json(courseEx[0].exercises)
+
+}
+
+const viewQuestions = async(req,res)=>
+{
+    const ques = await Quiz.find({_id:{$eq:req.query.exerciseID}},{_id:0,Questions:1}).populate('Questions')
+    if(!ques)
+    {
+        res.status(404).json({error:'No Questions available'})
+    }
+    console.log(ques);
+    res.status(200).json(ques[0].Questions)
+}
 
 
 
 
 
 
-module.exports = {filterPrice,filterSubjectRating,Search,viewCourses,viewCoursesCor,viewAllDetails,Link,getLink}
+
+module.exports = {filterPrice,filterSubjectRating,Search,viewCourses,viewCoursesCor,viewAllDetails,Link,getLink,viewSubtitles,addSubtitle,viewSubtitlesVid,viewExercises,viewQuestions}

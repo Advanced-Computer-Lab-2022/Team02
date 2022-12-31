@@ -29,6 +29,10 @@ const IndividualTraineeSchema = new Schema({
       Courses: [{
         type:mongoose.Types.ObjectId,
         ref:'courses'
+      }],
+      reports:[{
+        type:mongoose.Types.ObjectId,
+        ref:'reports'
       }]
   }, { timestamps: true });
 

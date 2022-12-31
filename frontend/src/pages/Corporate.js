@@ -60,6 +60,12 @@ const Courses = () => {
         function EditClick(){
             navigate('/ChangeMyPasswordCor')
         }
+        function ViewMyCourse(){
+            navigate('/myCourses')
+        }
+        function Connect(){
+            navigate('/ConnectAccount')
+        }
         const handleSubmit = async(e) =>
         {
             e.preventDefault();
@@ -109,6 +115,20 @@ const Courses = () => {
                     <span></span>
                     Edit Account
             </a>
+            <a onClick={ViewMyCourse}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    My Courses
+            </a>
+            <a onClick={Connect}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Connect Email
+            </a>
             <br></br>
             <br></br>
             <br></br>
@@ -128,6 +148,7 @@ const Courses = () => {
             </div>
             <div>
             <form className="create">
+            <br></br>
             <br></br>
             <div>
             <label>Rating</label>

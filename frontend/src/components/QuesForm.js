@@ -1,4 +1,5 @@
 import { useState } from "react";
+import{ useAuthContext } from "../hooks/useAuthContext"
 
 
 const QuesForm=()=>{
@@ -9,7 +10,9 @@ const QuesForm=()=>{
     const[Choice4,setChoice4]=useState('')
     const[CorrectAnswer,setCorrectAnswer]=useState('')
     const[error,SetError] = useState(null)
- 
+    const{user} = useAuthContext()
+    var number = 1;
+
 
 
     const handleSubmit = async (e) => {
@@ -20,7 +23,9 @@ const QuesForm=()=>{
             method: 'POST',
             body:JSON.stringify(question),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
+
             }
         })
         const json= await response.json()
@@ -38,13 +43,15 @@ const QuesForm=()=>{
 
             SetError(null)
             console.log('new Question added', json)
+            number ++;
+
         }
     }
     return(
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add Question and Choices</h3>
 <div>
-            <h4>Question 1</h4>
+            <h4>Question</h4>
             <div>
             <label>Question:</label>
             <input

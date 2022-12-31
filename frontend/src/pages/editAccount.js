@@ -64,7 +64,7 @@ const EditAccount = () => {
         const instructor = {email}
 
 
-        const response = await fetch(`../Instructor/editEmail?Id=${insId}`, {
+        const response = await fetch(`../Instructor/editEmail`, {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
@@ -89,7 +89,7 @@ const EditAccount = () => {
         const instructor = {biography}
 
 
-        const response = await fetch(`../Instructor/editBio?Id=${insId}`, {
+        const response = await fetch(`../Instructor/editBio`, {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {
@@ -115,7 +115,7 @@ const EditAccount = () => {
         const instructor = {password}
 
 
-        const response = await fetch(`../Instructor/changePassword?Id=${insId}`, {
+        const response = await fetch(`../Instructor/changePassword`, {
             method: 'POST',
             body:JSON.stringify(instructor),
             headers: {

@@ -6,6 +6,8 @@ const CorporateTrainee = require("../models/corporateTraineeModel")
 const indTrainee = require('../models/IndividualTrainee')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const corporateTraineeModel = require("../models/corporateTraineeModel")
+const requests = require("../models/requests")
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -74,6 +76,7 @@ async function addInstructor(req,res){
 async function addCorporateTrainee(req,res){
     var CorpTrainee = new CorporateTrainee()
     CorpTrainee.UserName = req.body.UserName
+    CorpTrainee.AdministratorID=req.user
     console.log(req.body.UserName)
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -127,6 +130,34 @@ const login = async (req, res) =>
         res.status(200).json(user)
     }
 }
+const getRequests = async (req,res)=>
+{
+    var corId=[];
+    const request = await Admin.findOne({_id:{$eq:req.user}},{_id:0,requests:1}).populate('requests')
+    if(!request)
+    {
+        res.status(404).json({error:'No requests available'})
+    }
+    const t = request.requests
+    res.status(200).json(t)
+}
+const accReq = async (req,res)=>
+{
+    const reqId = req.body.id
+    const courId= req.body.course
+    const corpId= req.body.from
+    await requests.deleteOne({_id:reqId})
+    await CorporateTrainee.updateOne({_id:corpId},{$push:{Courses:courId}})
+   // await Course.updateOne({_id:CourseId},{$push:{subtitle:id}})
+
+}
+
+const rejReq = async (req,res)=>
+{
+    const reqId = req.body.id
+    await requests.deleteOne({_id:reqId})
+
+}
 
 
-module.exports={addAdministrator,addInstructor,addCorporateTrainee,logout,login}
+module.exports={addAdministrator,addInstructor,addCorporateTrainee,logout,login,rejReq,getRequests,accReq}

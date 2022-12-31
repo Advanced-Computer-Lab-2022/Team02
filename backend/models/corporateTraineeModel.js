@@ -26,6 +26,18 @@ const CorporateTraineeSchema = new Schema({
     Courses: [{
       type:mongoose.Types.ObjectId,
       ref:'courses'
+    }],
+    AdministratorID:{
+      type:mongoose.Types.ObjectId,
+      ref:'administrators'
+    },
+    reports:[{
+      type:mongoose.Types.ObjectId,
+      ref:'reports'
+    }],
+    requests:[{
+        type:mongoose.Types.ObjectId,
+        ref:'requests'
     }]
   }, { timestamps: true });
 

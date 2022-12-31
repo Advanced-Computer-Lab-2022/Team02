@@ -1,10 +1,13 @@
 import { useState } from "react"
+import{ useAuthContext } from "../hooks/useAuthContext"
+
 import React from "react";
 import SearchDetails from "../components/SearchDetails"
     const Searchh = () => {
         const [Search, setSearch] = useState('');
         const [Courses, setCourses] = useState('');
-      
+        const{user} = useAuthContext()
+
         const handleSubmit = async(e) =>
         {
             e.preventDefault();
@@ -13,7 +16,9 @@ import SearchDetails from "../components/SearchDetails"
                 method : 'POST',
                 body : JSON.stringify(search),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization":`Bearer.${user.token}`
+
                 }
 
             } )

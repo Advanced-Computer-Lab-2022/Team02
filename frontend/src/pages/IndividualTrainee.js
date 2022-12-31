@@ -14,9 +14,11 @@ const Courses = () => {
     const [rating, setRating] = useState('');
     const [price, setPrice] = useState('');
 
+
     useEffect(()=>{
         const fetchCourses = async()=>{
-            
+            if(user!==null){
+
             const response = await fetch('/indTrainee/viewAllCourses',{
                 headers: {
                     "Authorization": `Bearer ${user.token}` //the token is a variable which holds the token
@@ -26,7 +28,7 @@ const Courses = () => {
             if(response.ok){
                 setCourse(json)
 
-            }
+            }}
     }
     if(user)
         fetchCourses()

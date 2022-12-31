@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import {useSelector} from "react-redux"
 const CourseDetails = ({ course }) => {
+    const Rate = useSelector((state) => state.rate.value)
+
+    if(typeof course.discount === 'object')
+    {
+        var newDis= 1-(course.discount.discount/100);
+        console.log(newDis)
+    }
+    
+    var price = course.price * newDis * Rate
     const [showText, setShowText] = useState(false);
     const {user} = useAuthContext();
     const [rating, setRating] = useState('');
@@ -49,7 +59,7 @@ const CourseDetails = ({ course }) => {
                  <h4>{course.title}</h4>
                  <p><strong>Rating:</strong>{average(course.rating)}</p>
                  <p><strong>Hours:</strong>{course.hours}</p>
-                 <p><strong>Price:</strong>{course.price}</p>
+                 <p><strong>Price:</strong>{price}</p>
 
             
             <div>
@@ -65,6 +75,9 @@ const CourseDetails = ({ course }) => {
             <button className="myButton" onClick={rateCourse}>Rate</button>
             <br></br>
             <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Go to course</button>
+            <br></br>
+            <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Register</button>
+            
         </div>
 
         

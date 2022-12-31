@@ -1,6 +1,8 @@
 import { useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin';
+import { useAuthContext } from "../hooks/useAuthContext";
+
 const CourseForm = () => {
     let navigate = useNavigate();
     const [UserName,SetUserName] = useState('')
@@ -11,6 +13,8 @@ const CourseForm = () => {
     const [Gender,SetGender] = useState('')
     const [error,SetError] = useState(null)
     const {login,errorr,isLoading} = useLogin()
+    const {user} = useAuthContext()
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -21,7 +25,9 @@ const CourseForm = () => {
             method: 'POST',
             body:JSON.stringify(user),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
+
             }
         })
         const json= await response.json()

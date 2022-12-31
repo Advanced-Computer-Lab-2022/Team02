@@ -29,4 +29,6 @@ router.post('/changePassword',Instruct.changePassword)
 router.post('/createQuiz',Instruct.CreateQuiz)
 router.post('/createQuestion',Instruct.CreateQuestion)
 router.post('/allUsers',Instruct.getallusers);
+router.post('/addSubtitle',Course.addSubtitle)
+
 module.exports=router

@@ -18,6 +18,21 @@ import ChangeMyPassword from './pages/ChangeMyPassword'
 import ChangeMyPasswordCor from './pages/ChangeMyPasswordCor'
 import SignUp from './pages/SignUp'
 import Policy from './pages/Policy'
+import SubtitlePage from './pages/AddSubtitle'
+import ViewSub from './pages/CourseSubtitles'
+import ForgotPass from './pages/ForgotPass'
+import SubVid from './pages/Vid'
+import GetExercises from './pages/CourseExercises'
+import GetQuiz from './pages/Quiz'
+import MyCourses from './pages/CorporateCourses'
+import CoursePrev2 from './pages/CoursePreview2'
+import ViewRequests from './pages/Requests'
+import ViewSubCor from './pages/CorSubtitlePage'
+import SubVidCor from './pages/CorVid'
+import GetExercisesCor from './pages/CorCourseExercises'
+import CoursePrevCor from './pages/CorCoursePreview'
+import CorGetQuiz from './pages/CorQuiz'
+import ConnectMailCor from './pages/ConnectAccount'
 
 function App() {
   const {user} = useAuthContext()
@@ -30,11 +45,11 @@ function App() {
           <Route
           //indvidual and guest
           path="/inTrainee"
-          element={user ? <Ind/> : <Navigate to="/"/>}
+          element={<Ind/>}
           />
             <Route
          path='/'
-         element= {!user ? <HomePage/> : <Navigate to="/Instructor"/>}
+         element= {<HomePage/>}
             />
             <Route
          path='/signUp'
@@ -42,19 +57,19 @@ function App() {
             />
           <Route
             path="/Instructor"
-            element={user ? <Ins/> : <Navigate to="/"/>}
+            element={<Ins/>}
           />
           <Route
             path="/admin"
-            element={user ? <Admin/> : <Navigate to="/"/>}
+            element={<Admin/>}
           />
           <Route
             path="/corTrainee"
-            element={user ? <Corporate/> : <Navigate to="/"/>}
+            element={<Corporate/>}
           />
           <Route
             path="/InstructorCourses"
-            element={user ? <InstructorCourses/> : <Navigate to="/"/>}
+            element={<InstructorCourses/>}
           />
           <Route
             path="/Guest"
@@ -74,23 +89,83 @@ function App() {
           />
           <Route
             path="/CreateQuiz"
-            element={user ? <QuizCrea/> : <Navigate to="/"/>}
+            element={<QuizCrea/>}
           />
           <Route
           path="/ChangeMyPassword"
-          element={user ? <ChangeMyPassword/> : <Navigate to="/"/>}
+          element={<ChangeMyPassword/>}
           />
           <Route
           path="/ChangeMyPasswordCor"
-          element={user ? <ChangeMyPasswordCor/> : <Navigate to="/"/>}
+          element={<ChangeMyPasswordCor/>}
           />
           <Route
             path="/EditAccount"
-            element={user ? <EditAccount/> : <Navigate to="/"/>}
+            element={<EditAccount/>}
           />
           <Route
             path="/Policy"
-            element={user ? <Policy/> : <Navigate to="/"/>}
+            element={<Policy/>}
+          />
+          <Route
+            path="/corCoursePreview"
+            element={<CoursePrevCor/>}
+          />
+                   <Route
+            path="/CourseSubtitle"
+            element={<ViewSub/>}
+          />
+          <Route
+            path="/AddSubtitle"
+            element={<SubtitlePage/>}
+          />
+          <Route
+            path="/ConnectAccount"
+            element={<ConnectMailCor/>}
+          />
+           <Route
+            path="/ForgotPass"
+            element={<ForgotPass/>}
+          />
+           <Route
+            path="/SubVid"
+            element={<SubVid/>}
+          />
+          <Route
+            path="/CourseExercises"
+            element={<GetExercises/>}
+          />
+            <Route
+            path="/corCourseExercises"
+            element={<GetExercisesCor/>}
+          />
+           <Route
+            path="/Quiz"
+            element={<GetQuiz/>}
+          />
+          <Route
+            path="/corQuiz"
+            element={<CorGetQuiz/>}
+          />
+          <Route
+            path="/myCourses"
+            element={<MyCourses/>}
+          />
+          <Route
+            path="/CoursePreview2"
+            element={<CoursePrev2/>}
+          />
+          <Route
+            path="/requests"
+            element={<ViewRequests/>}
+          />
+          <Route
+            path="/corCourseSubtitle"
+            element={<ViewSubCor/>}
+          />
+          <Route
+            path="/CorSubVid"
+            element={<SubVidCor/>}
           />
         </Routes>
       </div>

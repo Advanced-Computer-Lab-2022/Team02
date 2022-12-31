@@ -147,11 +147,10 @@ function editEmail(req,res)
 async function changePassword(req,res)
 {
     const passBody = req.body.password
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(passBody, salt);
+
     Instructor.updateOne(
         {"_id": req.user },
-        {$set: { "password" : hashedPassword}}).then(result => {
+        {$set: { "password" : passBody}}).then(result => {
             res.send();
         });
 
@@ -161,12 +160,11 @@ async function changePassword(req,res)
 async function CreateQuiz(req,res)
 {
     const quizz = new Quiz()
-    quizz.CourseId=mongoose.Types.ObjectId("638bda3a4deea6b6aa3a44d6")
+    quizz.CourseId=req.query.courseId
     await Quiz.create(quizz)
-    const quizId = await Quiz.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    const quizId = await Quiz.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')._id
     await Course.updateOne({_id:quizz.CourseId},{$push:{exercises:quizId}})
     res.send('added')
-
 
 
 }

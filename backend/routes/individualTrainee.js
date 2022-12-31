@@ -20,7 +20,15 @@ router.post('/signUp',Trainee.signUpI)
 router.post('/login',Trainee.loginI)
 router.post('/logout',Trainee.logout)
 router.get('/Account',Trainee.fetchIndAccount)
-
+router.get('/viewSubtitles',Course.viewSubtitles)
+router.get('/subVideo',Course.viewSubtitlesVid)
+router.post('/forgotPass',Trainee.forgotPassword)
+router.get('/reset-password/:id/:token',Trainee.resetPass)
+router.post('/reset-password/:id/:token',Trainee.resetPassw)
+router.get('/exercises',Course.viewExercises)
+router.get('/getQuestions',Course.viewQuestions)
+router.post('/regCourse',Trainee.regCourse)
+router.post('/setGrade',Trainee.quizGrade)
 
 
 module.exports = router

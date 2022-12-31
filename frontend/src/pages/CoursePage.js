@@ -43,9 +43,11 @@ const CoursePage = ({ course }) => {
         value={Link}
         onChange={(e)=> setfLink(e.target.value)}
         />
-        <button className="myButton"onClick={handleChange}>submit
+        <button className="myButton"onClick={handleChange}>Submit
         </button>
         </form>
+        <button className="myButton"onClick={() => window.location.href=`/AddSubtitle?courseId=${courseId}`}>Add Subtitle
+        </button>
         </div>
         </div>
     )

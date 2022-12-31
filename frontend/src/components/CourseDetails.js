@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import {useSelector} from "react-redux"
 import { useAuthContext } from "../hooks/useAuthContext";
 const CourseDetails = ({ course }) => {
+    const Rate = useSelector((state) => state.rate.value)
+
     if(typeof course.discount === 'object')
     {
         var newDis= 1-(course.discount.discount/100);
         console.log(newDis)
     }
-    var price = course.price * newDis
+    var price = course.price * newDis * Rate
     const [showText, setShowText] = useState(false);
     const [discount, setDiscount] = useState('');
     const [time, setTime] = useState('');
@@ -43,6 +46,13 @@ const CourseDetails = ({ course }) => {
             console.log('Discount added',json)
         }
     }
+    async function CreateQuiz(){
+        //     await fetch('Instructor/createQuiz', {
+        //        method: 'POST',
+        //    })
+           window.location.href=`/CreateQuiz?courseId=${course._id}`;
+       }
+    
     
     const Text = () => <div>
     {course.subtitle && Array.isArray(course.subtitle) && course.subtitle.map(({name}) => <p key={course.subtitle._id}><strong>Subtitle:</strong>{name}</p>)}
@@ -80,6 +90,9 @@ const CourseDetails = ({ course }) => {
             <button className="myButton"onClick={discountt}>addDiscount</button>
             <br></br>
             <button className="myButton"onClick={() => window.location.href=`/CoursePage?courseId=${course._id}&courseTitle=${course.title}`}>Go to course
+            </button>
+            <br></br>
+            <button className="myButton"onClick={CreateQuiz}>Create Quiz
             </button>
         </div>
 

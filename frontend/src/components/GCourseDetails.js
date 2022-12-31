@@ -35,7 +35,7 @@ const CourseDetails = ({ course }) => {
             {showText ? <Text /> : null}
             <br></br>
             </div>
-            <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Go to course</button>
+            <button className="myButton" onClick={() => window.location.href=`/CoursePreview2?Id=${course._id}`}>Go to course</button>
         </div>
 
         

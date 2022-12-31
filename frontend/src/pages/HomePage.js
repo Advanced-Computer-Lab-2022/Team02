@@ -35,6 +35,7 @@ const Home = ()=> {
       <br></br>
         <button id="loginButton" disabled={isLoading}>Login</button>
         <button id="loginButton" onClick={() => window.location.href='/signUp'}>Sign Up</button>
+        <button id="loginButton" onClick={() => window.location.href='/ForgotPass'}>Forgot My Password</button>
         <button id="loginButtonn" onClick={() => window.location.href='/guest'}>Continue as guest</button>
         <br></br>
         {error && <div className="error">{error}</div>}

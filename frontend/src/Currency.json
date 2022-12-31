@@ -1,4 +1,5 @@
 [{"code":"USD","alphaCode":"USD","numericCode":"840","name":"U.S. Dollar","rate":0.040426130331843},
+{"code":"EGP","alphaCode":"EGP","numericCode":"555","name":"Egyptian pound","rate":1},
 {"code":"EUR","alphaCode":"EUR","numericCode":"978","name":"Euro","rate":0.038013931583907,"date":"Wed, 28 Dec 2022 11:55:01 GMT","inverseRate":26.306145098218},
 {"code":"GBP","alphaCode":"GBP","numericCode":"826","name":"U.K. Pound Sterling","rate":0.033606876777943,"date":"Wed, 28 Dec 2022 11:55:01 GMT","inverseRate":29.755814758018},
 {"code":"JPY","alphaCode":"JPY","numericCode":"392","name":"Japanese Yen","rate":5.4143635235555,"date":"Wed, 28 Dec 2022 11:55:01 GMT","inverseRate":0.18469391566515},

@@ -360,6 +360,28 @@ header a {
   background:linear-gradient(to bottom, blue 5%, blue 100%);
 	background-color:blue;
 }
+#Quizbutton
+{
+  box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:linear-gradient(to bottom, teal, teal);
+	background-color:teal;
+	border-radius:6px;
+	border:1px solid teal;
+  width:15%;
+	display: block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size:15px;
+  text-align: center;
+	padding:6px 0px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px teal;
+}
+#Quizbutton:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
 .myButton:hover {
   background:linear-gradient(to bottom, blue 5%, blue 100%);
 	background-color:blue;
@@ -446,6 +468,40 @@ input {
   font-size: 15px;
   background-color: white;
   color: teal;
+}
+.question-card {
+  /* Center the div  */
+  margin: 25px ;
+
+  /* Dimensions  */
+  width: 80%; /* Can be in percentage also. */
+  height: auto;
+
+  /* Visual  */
+  background-color: white;
+  padding: 16px;
+  border-radius: 16px;
+  color: teal;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+}
+.question-test{
+  color:teal;
+  font-size: 28px;
+}
+ul {
+  list-style: none;
+}
+
+li{
+  margin-top: 8px;
+  background-color: teal;
+  padding: 16px;
+  border: 3px solid teal;
+  border-radius: 20px;
+  font-size: 20px;
+  color: white;
+
 }
 label {
   position: absolute;

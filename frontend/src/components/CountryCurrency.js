@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import Country from "../Country.json";
 import Currency from "../Currency.json";
+import { RRate } from "../Redux/CountryReducer";
 import { v4 as uuidv4 } from "uuid";
+import {useDispatch, useSelector} from "react-redux"
 
 const CountryCurrency = () => {
-
+const Rate = useSelector((state) => state.rate.value)
+const dispatch = useDispatch()
 const [countries,setCountries] = useState(Country);
 const [rates,setRate] = useState(Currency);
 
@@ -15,8 +18,8 @@ const [searchCountry, setSearchCountry] = useState();
 console.log("searchCountry", searchCountry);
 const [city, setCity] = useState('')
 console.log("Currency",city)
-const [rate,setRatee] = useState("")
-console.log("Rate",rate)
+if(Rate)
+  console.log("Rate",Rate)
 
 function ratte()
   {
@@ -32,7 +35,7 @@ function ratte()
         {
           const elem = rates[index];
           if(element.currency_code == elem.code)
-            setRatee(elem.rate)
+            dispatch(RRate(elem.rate))
         }
       }
     }  

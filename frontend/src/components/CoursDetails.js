@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import {useSelector} from "react-redux"
 const CourseDetails = ({ course }) => {
+
     const [showText, setShowText] = useState(false);
     const [rating, setRating] = useState('');
     const {user} = useAuthContext()
@@ -35,6 +37,20 @@ const CourseDetails = ({ course }) => {
             console.log('Course Rated',json)
         }
     }
+    const reqCourse = async()=>{
+        const response = await fetch (`/corTrainee/reqCourse`,{
+            method:'POST',
+            body:JSON.stringify({CourseId:course._id}),
+            headers:{
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${user.token}`
+            }
+        })
+        const f = await response.json
+        if(response.ok){
+            alert(f)
+        }
+    }
     function average(nums) {
         if(nums.length>0)
             return nums.reduce((a, b) => (a + b)) / nums.length;
@@ -47,16 +63,10 @@ const CourseDetails = ({ course }) => {
         <div>
         <button className="myButton"onClick={onClick}>viewAllDetails</button>
         {showText ? <Text /> : null}
+        <button className="myButton" onClick={reqCourse}>Request Course</button>
+        <button className="myButton" onClick={() => window.location.href=`/CoursePreview2?Id=${course._id}`}>Go to Course</button>
+      
         </div>
-            <input
-                className="h"
-                type="number"
-                onChange={(e)=> setRating(e.target.value)}
-                value={rating}
-            />
-            <button className="myButton"onClick={rateCourse}>Rate</button>
-            <br></br>
-            <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Go to course</button>
         </div>
         
     )

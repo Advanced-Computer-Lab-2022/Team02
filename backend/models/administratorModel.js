@@ -11,7 +11,15 @@ const administratorSchema = new Schema({
         type:String,
         required:true
 
-    }
+    },
+    reports:[{
+        type:mongoose.Types.ObjectId,
+        ref:'reports'
+    }],
+    requests:[{
+        type:mongoose.Types.ObjectId,
+        ref:'requests'
+    }]
 
 
 

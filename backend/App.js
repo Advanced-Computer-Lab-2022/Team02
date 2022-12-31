@@ -8,7 +8,8 @@ const corTraineeRouter= require('./routes/corporateTrainee')
 const guestRouter= require('./routes/guest')
 
 const app= express();
-
+app.set("view engine","ejs")
+app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
 

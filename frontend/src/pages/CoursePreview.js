@@ -7,6 +7,8 @@ const courseID = params.get('Id')
 const CoursePrev = () => 
 {
     const [getLink, setgetLink] = useState("")
+    const courseId = params.get('courseId');
+
 
     useEffect(()=>{
         const handleChange = async(e) => {
@@ -36,7 +38,13 @@ const CoursePrev = () =>
       {/* <video url={getLink} width="1080" controls ></video>*/}
         
         <iframe width="900" height="500" src={getLink}></iframe>
-             
+        
+        <br></br>
+         <button className="myButton" onClick={() => window.location.href=`/CourseSubtitle?courseId=${courseID}`}>Subtitles
+        </button> 
+        <br></br>
+        <button className="myButton" onClick={() => window.location.href=`/CourseExercises?courseId=${courseID}`}>Exercises
+        </button> 
         </div>
 
     )

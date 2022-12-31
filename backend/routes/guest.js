@@ -13,6 +13,10 @@ router.post('/addItrainee',Trainee.addItrainee)
 router.post('/signUp',Trainee.signUpI)
 router.post('/login',Trainee.loginI)
 router.get('/getLink',Course.getLink)
+router.post('/forgotPass',Trainee.forgotPassword)
+router.get('/reset-password/:id/:token',Trainee.resetPass)
+router.post('/reset-password/:id/:token',Trainee.resetPassw)
+
 
 
 
