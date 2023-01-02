@@ -137,6 +137,12 @@ const Home = () => {
             setCourse(Courses);
         }
     }
+    function Report(){
+        navigate('/InsReport')
+    }
+    function MyReports(){
+        navigate('/InsMyReports')
+    }
 
     return(
             
@@ -149,19 +155,26 @@ const Home = () => {
                     <span></span>
                     View My Courses
                 </a>
-                <a onClick={CreateQuiz}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    Create Quiz
-                </a>
                 <a onClick={EditClick}>
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
                     Edit Account
+                </a>
+                <a onClick={MyReports}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    View Previous Reports
+            </a>
+            <a onClick={Report}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Report a Problem
                 </a>
                 <br></br>
                 <br></br>
