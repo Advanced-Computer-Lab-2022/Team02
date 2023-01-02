@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const corporateTraineeModel = require("../models/corporateTraineeModel")
 const requests = require("../models/requests")
-const requests = require("../models/requests")
 
 
 const maxAge = 3 * 24 * 60 * 60;
