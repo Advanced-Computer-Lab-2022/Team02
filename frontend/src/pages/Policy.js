@@ -1,9 +1,26 @@
 import { useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 const Contract = () =>{
     let navigate = useNavigate();
-    function AcceptClick(){
-        navigate('/')
+    const {user} = useAuthContext()
+    const {logout} = useLogout();
+    async function AcceptClick(){
+        if(user){
+            const response = await fetch('/guest/acceptPolicy', {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            })
+            if (response.ok){
+                window.location.href='/'
+                logout()
+                alert("Please Login Again")
+            }
+        }
+        
     }
     const onClick = () => 
     {
@@ -14,12 +31,13 @@ const Contract = () =>{
     const Text = () => <div>
     <p id="error"><strong>You must accept the policy to proceed</strong></p>
     </div>;
+
     return(
         <div>
         <form className="Contract">
-            <h4>Refund Policy</h4>
+            <h4 id ="account">Refund Policy</h4>
             
-            <p>In certain cases and within certain limits, a permit fee may be refunded if the
+            <p id = "account">In certain cases and within certain limits, a permit fee may be refunded if the
 permitted work will not be completed.
 
 If the work has not started, a fifty dollar ($50) processing fee will be retained

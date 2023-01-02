@@ -36,7 +36,8 @@ const courseSchema = new Schema({
 
     },
     discount:{
-        type:Object
+        type:Object,
+        default:0
     },
     rating:{
         type:[Number],  

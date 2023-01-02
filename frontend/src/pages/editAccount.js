@@ -1,7 +1,8 @@
 import { useState,useEffect } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
+import {useSelector} from "react-redux"
 const EditAccount = () => {
-
+    const Rate = useSelector((state) => state.rate.value)
     const[email,setEmail] = useState('')
     const [info,setInfo] = useState(null)
     const[biography,setBio] = useState('')
@@ -10,6 +11,7 @@ const EditAccount = () => {
     const [error1,SetError1] = useState(null)
     const [error2,SetError2] = useState(null)
     const [rating, setRating] = useState([]);
+    const [salary,setSalary] = useState(0)
     const [reviews, setReviews] = useState([]);
     const {user} = useAuthContext()
     const params = new URLSearchParams(window.location.search);
@@ -28,6 +30,19 @@ const EditAccount = () => {
             console.log(json)
             if (response.ok){
                 setInfo(json)
+            }
+        }
+        const getSalary = async() => {
+            const response = await fetch('../Instructor/salary', {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json();
+            console.log(json)
+            if (response.ok){
+                setSalary(json)
             }
         }
         const getRating = async() => {
@@ -56,6 +71,7 @@ const EditAccount = () => {
             getAccount();
             getRating()
             getReviews()
+            getSalary()
         }
         }, [user])
         const handleSubmit1 = async (e) => {
@@ -147,6 +163,7 @@ const EditAccount = () => {
             <p id="account"><strong>Biography:</strong>{info.biography}</p>
             <p id="account"><strong>My Rating:</strong>{average(rating)}</p>
             <p id="account"><strong>My Reviews:</strong>{reviews.join('-')}</p>
+            <p id="account"><strong>Monthly Income:</strong>{salary * Rate}</p>
             </div>}
         <form className="Edit" onSubmit={handleSubmit1}>
             <h3>Edit Account</h3>

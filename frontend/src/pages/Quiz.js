@@ -4,7 +4,9 @@ import axios from "axios";
 import { useAuthContext } from '../hooks/useAuthContext'
 const params =  new URLSearchParams(window.location.search)
 const exerciseId = params.get('exerciseID')
+const courseId = params.get('courseId')
 console.log(exerciseId)
+console.log(courseId)
 
 
 
@@ -40,33 +42,16 @@ const GetQuiz = () =>
                 fetchQuestion()
         
     }, [user])
-    const handleSubmit = async(e)=>
-    {
-        e.preventDefault();
-        const grade ={Grades}
-        const response= await fetch('/indTrainee/setGrade', {
-            method : 'POST',
-            body : JSON.stringify(grade),
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${user.token}`
-            }
-
-        } )
-        const Grade = await response.json()
-        if(response.ok)
-        {
-            setGrades(Grade);
-        }
+    const nav = () => {
+        window.location.href=`/CourseExercises?courseId=${courseId}`
     }
-
     return(
         <div className="home">
             <div className="Courses">
                 {question && question.map((Questions)=>(
                     <QuizDetails key={Questions._id} Questions={Questions}/>
                 ))}
-                <button className="myButton" onClick={handleSubmit}>Finish</button>
+                <button className="myButton" onClick={nav}>Finish</button>
 
             </div>
         </div>

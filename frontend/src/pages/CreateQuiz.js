@@ -16,6 +16,7 @@ const QuizCrea = () => {
     useEffect(()=>{
         const fetchCourses = async()=>{
             if(user !== null){
+                console.log("hello")
             await fetch(`Instructor/createQuiz?courseId=${courseId}`, {
                        method: 'GET',
                        headers: {

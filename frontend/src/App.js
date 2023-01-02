@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route ,Navigate} from 'react-router-dom'
 import Ins from './pages/Instructor'
 import Navbar from './components/Navbar'
 import Admin from './pages/Admin'
+import Answers from './pages/Answers'
 import { useAuthContext } from './hooks/useAuthContext'
 import Ind from './pages/IndividualTrainee'
 import Corporate from './pages/Corporate'
@@ -33,6 +34,17 @@ import GetExercisesCor from './pages/CorCourseExercises'
 import CoursePrevCor from './pages/CorCoursePreview'
 import CorGetQuiz from './pages/CorQuiz'
 import ConnectMailCor from './pages/ConnectAccount'
+import ReportCourseCOR from './pages/CorReport'
+import ReportCourseIND from './pages/IndReport'
+import ReportCourseINS from './pages/InsReport'
+import ViewReports from './pages/Reports'
+import ReportDet from './pages/ReportDet'
+import ViewMyReports from './pages/IndMyReports'
+import CorViewMyReports from './pages/CorMyReport'
+import InsViewMyReports from './pages/InsMyReport'
+import MyCoursesInd from './pages/IndCourses'
+import CancelPayment from './pages/CancelPayment'
+import Continue from './pages/Continue'
 
 function App() {
   const {user} = useAuthContext()
@@ -166,6 +178,54 @@ function App() {
           <Route
             path="/CorSubVid"
             element={<SubVidCor/>}
+          />
+          <Route
+            path="/answers"
+            element={<Answers/>}
+          />
+          <Route
+            path="/CorReport"
+            element={<ReportCourseCOR/>}
+          />
+          <Route
+            path="/IndReport"
+            element={<ReportCourseIND/>}
+          />
+          <Route
+            path="/InsReport"
+            element={<ReportCourseINS/>}
+          />
+          <Route
+            path="/reports"
+            element={<ViewReports/>}
+          />
+          <Route
+            path="/reportDetails"
+            element={<ReportDet/>}
+          />
+          <Route
+            path="/IndMyReports"
+            element={<ViewMyReports/>}
+          />
+          <Route
+            path="/CorMyReports"
+            element={<CorViewMyReports/>}
+          />
+          <Route
+            path="/InsMyReports"
+            element={<InsViewMyReports/>}
+          />
+          <Route
+            path="/IndMyCourses"
+            element={<MyCoursesInd/>}
+          />
+          <Route
+            path="/PaymentCancelled"
+            element={<CancelPayment/>}
+          />
+          <Route
+            path="/Continue"
+            element={<Continue/>}
           />
         </Routes>
       </div>

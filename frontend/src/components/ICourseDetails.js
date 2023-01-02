@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import {useSelector} from "react-redux"
-const CourseDetails = ({ course }) => {
+const ICourseDetails = ({ course }) => {
     const Rate = useSelector((state) => state.rate.value)
 
     if(typeof course.discount === 'object')
@@ -38,30 +38,11 @@ const CourseDetails = ({ course }) => {
                 "Authorization": `Bearer ${user.token}`
             }
         })
-        const json= await response.json()
+        const json= await response.json
 
         if (response.ok){
             setRating('')
             console.log('Course Rated',json)
-        }
-    }
-
-    const buyCourse= async() =>{
- 
-        const response = await fetch(`/IndTrainee/buyCourse`, {
-            method: 'POST',
-            body:JSON.stringify({title:course.title,price:course.price,id:course._id}),
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${user.token}`
-
-            }
-        })
-        const json= await response.json()
-
-        if (response.ok){
-            window.location.href = json.url
-            console.log(json)
         }
     }
     
@@ -78,21 +59,26 @@ const CourseDetails = ({ course }) => {
                  <h4>{course.title}</h4>
                  <p><strong>Rating:</strong>{average(course.rating)}</p>
                  <p><strong>Hours:</strong>{course.hours}</p>
-                 <p><strong>Price:</strong>{price}</p>
 
             
             <div>
             <button className="myButton"onClick={onClick}>viewAllDetails</button>
             {showText ? <Text /> : null}
             </div>
+            <input
+                className="h"
+                type="number"
+                onChange={(e)=> setRating(e.target.value)}
+                value={rating}
+            />
+            <button className="myButton" onClick={rateCourse}>Rate</button>
             <br></br>
-            <button className="myButton" onClick={() => window.location.href=`/CoursePreview2?Id=${course._id}`}>Go to course</button>
-            <br></br>
-            <button className="myButton" onClick={buyCourse}>Buy</button>
+            <button className="myButton" onClick={() => window.location.href=`/CoursePreview?Id=${course._id}`}>Go to course</button>
+                
         </div>
 
         
        
     )
 }
-export default CourseDetails
+export default ICourseDetails

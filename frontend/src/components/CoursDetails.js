@@ -10,7 +10,7 @@ const CourseDetails = ({ course }) => {
     const Text = () => <div>
     {course.subtitle && Array.isArray(course.subtitle) && course.subtitle.map(({name}) => <p key={course.subtitle._id}><strong>Subtitle:</strong>{name}</p>)}
     <p><strong>Exercises:</strong>{course.exercises}</p>
-    <p><strong>discount:</strong>{course.discount}</p>
+    <p><strong>discount:</strong>{course.discount.discount}<strong>Time:</strong>{course.discount.time}</p>
     </div>;
     const onClick = () => 
     {

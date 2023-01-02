@@ -104,6 +104,12 @@ const Courses = () => {
                 setRatingg('');
             }
         }
+        function Report(){
+            navigate('/CorReport')
+        }
+        function MyReports(){
+            navigate('/CorMyReports')
+        }
 
     return(
         <div className="home">
@@ -129,6 +135,20 @@ const Courses = () => {
                     <span></span>
                     Connect Email
             </a>
+            <a onClick={MyReports}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    View Previous Reports
+            </a>
+            <a onClick={Report}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Report a Problem
+                </a>
             <br></br>
             <br></br>
             <br></br>

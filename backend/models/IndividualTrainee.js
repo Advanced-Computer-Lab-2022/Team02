@@ -33,7 +33,15 @@ const IndividualTraineeSchema = new Schema({
       reports:[{
         type:mongoose.Types.ObjectId,
         ref:'reports'
-      }]
+      }],   
+      accepted:{
+        type:Number,
+        default:0
+      },
+      AdministratorID:{
+        type:mongoose.Types.ObjectId,
+        ref:'administrators'
+      }
   }, { timestamps: true });
 
   module.exports=mongoose.model('IndividualTrainee',IndividualTraineeSchema)

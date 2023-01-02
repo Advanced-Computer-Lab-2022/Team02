@@ -13,6 +13,9 @@ router.post('/logout', Admin.logout)
 router.get('/getRequests',Admin.getRequests)
 router.post('/accReq', Admin.accReq)
 router.post('/rejReq', Admin.rejReq)
+router.get('/getReports',Admin.getReport)
+router.post('/Reportss',Admin.ReportStatus)
+router.get('/getReportsDetails',Admin.getReportDetails)
 
 
 module.exports=router

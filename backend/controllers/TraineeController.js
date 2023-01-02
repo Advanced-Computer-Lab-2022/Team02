@@ -11,6 +11,9 @@ var requests = require ('../models/requests')
 var quiz = require('../models/quizModel')
 var nodemailer = require('nodemailer')
 var Grades = require('../models/Grades')
+const stripe = require("stripe")(process.env.STRIPE_KEY)
+
+const { default: mongoose } = require('mongoose')
 
 
 
@@ -89,7 +92,7 @@ const signUpI = async (req, res) => {
         }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-        const user = await indTrainee.create({ UserName: UserName, Email: Email, password: hashedPassword , FirstName: FirstName , LastName: LastName , Gender: Gender});
+        const user = await indTrainee.create({ UserName: UserName, Email: Email, password: hashedPassword , FirstName: FirstName , LastName: LastName , Gender: Gender,AdministratorID:mongoose.Types.ObjectId("63b04e92720ec29cbc031987")});
         const token = createToken(user._id);
 
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -105,6 +108,7 @@ const loginI = async (req, res) =>
 {
     var token;
     var email;
+    var accepted;
     var I = 1;
     var A = 1;
     var C = 1;
@@ -123,6 +127,7 @@ const loginI = async (req, res) =>
     else if(await bcrypt.compare(password,user1.password))
     {
         email = "Trainee"
+        accepted = user1.accepted
         id = user1._id
         token = createToken(user1._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -136,6 +141,7 @@ const loginI = async (req, res) =>
     {
         email = "Corporate"
         id = user2._id
+        accepted = user2.accepted
         token = createToken(user2._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
@@ -148,6 +154,8 @@ const loginI = async (req, res) =>
     {
         email = "Instructor"
         id = user3._id
+        console.log(user3.accepted)
+        accepted = user3.accepted
         token = createToken(user3._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
@@ -160,6 +168,7 @@ const loginI = async (req, res) =>
     {
         email = "Admin"
         id = user4._id
+        accepted = user4.accepted
         token = createToken(user4._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         console.log(token) 
@@ -189,7 +198,7 @@ const loginI = async (req, res) =>
     {
         nav = "4"
     }
-    res.status(200).json({id,nav,token,email})
+    res.status(200).json({id,nav,token,email,accepted})
     }
 }
 
@@ -442,9 +451,11 @@ const reqCourse = async (req,res)=>
 }
 const regCourse = async(req,res)=>
 {
-    const CourseID= req.body.CourseId
-    const indId=req.query.Id
-    const course = await Course.find({_id:{$eq:CourseID}},{_id:1,title:0})
+    const CourseID= req.query.courseId
+    const indId=req.user
+    const course = await Course.find({_id:{$eq:CourseID}})
+    console.log(course._id)
+
     await indTrainee.findOneAndUpdate({_id:{$eq:indId}},{$push:{Courses:course}})
     //console.log('Registration Successful')
     res.send('Registration Successful')
@@ -461,6 +472,37 @@ const viewMyCourses = async (req,res)=>
     res.status(200).json(g.Courses)
 
 }
+const indViewMyCourses = async (req,res)=>
+{
+    const ID = req.user
+    const g = await indTrainee.findOne({_id:ID}).populate('Courses')
+    if(!viewMyCourses)
+    {
+        res.status(404).json({error:'No Courses available'})
+    }
+    res.status(200).json(g.Courses)
+
+}
+const IndViewMyReports = async (req,res)=>
+{
+    const ID = req.user
+    const g= await indTrainee.findOne({_id:ID}).populate('reports')
+    if(!IndViewMyReports)
+    {
+        res.status(404).json({error:'No Courses available'})
+    }
+    res.status(200).json(g.reports)
+}
+const CorViewMyReports = async (req,res)=>
+{
+    const ID = req.user
+    const g= await corTrainee.findOne({_id:ID}).populate('reports')
+    if(!CorViewMyReports)
+    {
+        res.status(404).json({error:'No Courses available'})
+    }
+    res.status(200).json(g.reports)
+}
 const connectMail = async (req,res)=>
 {
     const ID = req.user
@@ -472,8 +514,95 @@ const quizGrade= async (req,res)=>
 {
     const userID=req.user
     const quizID=req.query.exerciseID
-    const grade = req.body.score
-    await Grades.findOneAndUpdate({StudentId:{$eq:userID},QuizId:{$eq:quizID}},{$set:{Grade:grade}})
+    const ee=req.body.grade
+    console.log(ee)
+    console.log(userID)
+    console.log(quizID)
+    const t =await Grades.findOneAndUpdate({StudentId:{$eq:userID},QuizId:{$eq:quizID}},{$set:{Grade:ee}})
+    const p =await Grades.findOneAndUpdate({StudentId:{$eq:userID},QuizId:{$eq:quizID}},{$set:{Status:"finished"}})
+    res.status(200).json({t,p})
+}
+const startQuiz = async(req,res) =>
+{
+    const userID=req.user
+    const quizID=req.query.exerciseID
+    const grade = new Grades()
+    grade.StudentId=req.user
+    grade.QuizId = req.body.quizID
+    const y = await Grades.find({StudentId:{$eq:userID},QuizId:{$eq:quizID}})
+    console.log(y)
+    if(y.length == 0){
+    res.status(200).json("quiz created")
+    const t =await Grades.create(grade)
+    }
+
+}
+const CorCourses = async(req,res) =>
+{
+    var cor = []
+    const v = await corTrainee.findOne({_id:req.user}).populate('Courses')
+    const cors = v.Courses
+    for (let index = 0; index < cors.length; index++) {
+        const element = cors[index];
+        cor.push(element.title)
+    }
+    res.status(200).json(cor)
+}
+const IndCourses = async(req,res) =>
+{
+    var cor = []
+    const v = await indTrainee.findOne({_id:req.user}).populate('Courses')
+    const cors = v.Courses
+    for (let index = 0; index < cors.length; index++) {
+        const element = cors[index];
+        cor.push(element.title)
+    }
+    res.status(200).json(cor)
 }
 
-module.exports= {rateInstructor,rateCourse,changePassworddInd,changePassworddCor,addItrainee,signUpI,loginI,logout,loginC,fetchIndAccount,fetchCorAccount,forgotPassword,resetPass,resetPassw,reqCourse,regCourse,viewMyCourses,connectMail,quizGrade};
+const getProgression = async(req,res) =>{
+    const corsId = req.query.courseId
+    var y;
+    var exam = []
+    const f = await Course.findOne({_id:corsId}).populate('exercises')
+    if(f !=null){
+        y = f.exercises
+    for (let index = 0; index < y.length; index++) {
+        const element = y[index];
+        exam.push(element._id)
+    }
+    const t = await Grades.find({QuizId:{$in:exam},StudentId:{$eq:req.user}})
+    const y1 = (t.length/exam.length) * 100
+    res.status(200).json(y1)
+}
+}
+const buyCourse = async(req,res) => {
+    const {title,id,price} = req.body
+
+    try {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        mode: "payment",
+        line_items:[{
+          price_data: {
+              currency: "usd",
+              product_data: {
+                name: title,
+              },
+              unit_amount: price*100,
+            },
+            quantity: 1,
+        },
+    ],
+        success_url: `http://localhost:3000/continue?CourseId=${id}`,
+        cancel_url: "http://localhost:3000/PaymentCancelled",
+      })
+      res.json({ url: session.url })
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({ error: e.message })
+    }
+}
+
+
+module.exports= {rateInstructor,IndCourses,startQuiz,getProgression,rateCourse,CorCourses,changePassworddInd,changePassworddCor,addItrainee,signUpI,loginI,logout,loginC,fetchIndAccount,fetchCorAccount,forgotPassword,resetPass,resetPassw,reqCourse,regCourse,viewMyCourses,connectMail,quizGrade,IndViewMyReports,indViewMyCourses,CorViewMyReports,buyCourse};

@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const corporateTraineeModel = require("../models/corporateTraineeModel")
 const requests = require("../models/requests")
+const requests = require("../models/requests")
+
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -49,6 +51,7 @@ async function addAdministrator(req,res)
 async function addInstructor(req,res){
     var instruct= new Instructor()
     instruct.username = req.body.username
+    instruct.AdministratorID=req.user
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     instruct.password = hashedPassword
@@ -158,6 +161,39 @@ const rejReq = async (req,res)=>
     await requests.deleteOne({_id:reqId})
 
 }
+const getReport = async (req,res)=>    
+{
+    const report = await Admin.findOne({_id:{$eq:req.user}},{_id:0,reports:1}).populate('reports')
+    if(!report)
+    {
+        res.status(404).json({error:'No reports available'})
+    }
+    const t = report.reports
+    console.log(t)
+    res.status(200).json(t)
+}
+const getReportDetails = async (req,res)=>    
+{
+    const reportt = await reports.find({_id:{$eq:req.query.reportID}},{_id:1,username:1,type:1,course:1,details:1,seeen:1})
+    if(!reportt)
+    {
+        res.status(404).json({error:'No reports available'})
+    }
+    const t = reportt
+    console.log(t)
+    res.status(200).json(t)
+}
+const ReportStatus = async (req,res) =>
+{
+    const id = req.query.reportID
+    console.log(id)
+    
+    await reports.findByIdAndUpdate({_id:id},{$set:{status:"Resolved"},$set:{seeen:"Seen"}})
+   // await reports.findByIdAndUpdate({_id:id},{$set:{seen:"Seen"}})
+    //reports.answer=req.body.answer
+    res.status(200).json("Resolved")
+
+}
 
 
-module.exports={addAdministrator,addInstructor,addCorporateTrainee,logout,login,rejReq,getRequests,accReq}
+module.exports={addAdministrator,addInstructor,addCorporateTrainee,logout,login,rejReq,getRequests,accReq,getReport,ReportStatus,getReportDetails}

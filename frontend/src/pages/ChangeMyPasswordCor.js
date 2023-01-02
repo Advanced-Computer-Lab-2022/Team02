@@ -6,6 +6,7 @@ const ChangeMyPasswordCor =()=>{
     const {user} = useAuthContext()
     const [info,setInfo] = useState(null)
     const [error,SetError] = useState(null)
+    const [courses,setCourses] = useState(null)
     const params = new URLSearchParams(window.location.search);
     const Id = params.get('Id');
 
@@ -23,8 +24,25 @@ const ChangeMyPasswordCor =()=>{
                 setInfo(json)
             }
         }
+        const getCourses = async() => {
+            const response = await fetch('../corTrainee/getMyCoursesDetails', {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json();
+            console.log(json)
+            if (response.ok){
+                setCourses(json)
+            }
+        }
         if(user)
+        {
             getAccount();
+            getCourses();
+        }
+            
         }, [user])
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -62,6 +80,7 @@ const ChangeMyPasswordCor =()=>{
             <p id="account"><strong>FirstName:</strong>{info.FirstName}</p>
             <p id="account"><strong>LastName:</strong>{info.LastName}</p>
             <p id="account"><strong>Gender:</strong>{info.Gender}</p>
+            <p id="account"><strong>Your Courses: </strong>{courses && courses.join('-')}</p>
             </div>}
             <h3>Change My Password</h3>
 

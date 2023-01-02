@@ -38,7 +38,11 @@ const CorporateTraineeSchema = new Schema({
     requests:[{
         type:mongoose.Types.ObjectId,
         ref:'requests'
-    }]
+    }],
+    accepted:{
+      type:Number,
+      default:0
+    }
   }, { timestamps: true });
 
   module.exports=mongoose.model('CorporateTrainee',CorporateTraineeSchema)

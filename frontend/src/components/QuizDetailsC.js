@@ -3,22 +3,33 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const params = new URLSearchParams(window.location.search)
 const exerciseId= params.get('exerciseID')
 var score = 0;
-var Finish = false;
+var check = 0;
 const QuizDetails = ({ Questions }) => {
     const[choice,setchoice]= useState('')
     const {user} = useAuthContext();
     const [showText, setShowText] = useState(false);
+    const [Finish,setFinish] = useState(true)
     const[submitted,setSubmitted]= useState(false)
+
     async function checkCorrect(){
         console.log(choice)
         if(choice===Questions.CorrectAnswer){
             console.log("good")
             score++;
             console.log(score)
+
         }
         console.log(score)
+        check++;
         setShowText(true)
         setSubmitted(true)
+    }
+    function button()
+    {
+        if(check == Questions.length)
+            return true
+        else
+            return false
     }
     function Q1()
     {
@@ -36,14 +47,11 @@ const QuizDetails = ({ Questions }) => {
     {
         setchoice(Questions.Choice4)
     }
-    console.log(Questions)
     const Text = () => <div>
     <p><strong>Correct Answer:</strong>{Questions.CorrectAnswer}</p>
     </div>;
     const submitExam = async()=>{
-        Finish = true
-        console.log({grade:score})
-        const response = await fetch(`../indTrainee/setGrade?exerciseID=${exerciseId}`,{
+        const response = await fetch(`../corTrainee/setGrade?exerciseID=${exerciseId}`,{
             method:'POST',
             body:JSON.stringify({"grade":score}),
             headers: {
@@ -59,17 +67,17 @@ const QuizDetails = ({ Questions }) => {
         }
     return(
 <div className="question-card">
-        {!showText && <div><h4 className="question-test">{Questions.Question}</h4></div>}
+        {!showText && <div><h4 className="question-test">{Questions.Question}</h4>
         <ul>
             <li onClick={Q1}>{Questions.Choice1}</li>
             <li onClick={Q2}>{Questions.Choice2}</li>
             <li onClick={Q3}>{Questions.Choice3}</li>
             <li onClick={Q4}>{Questions.Choice4}</li>
-        </ul>
+        </ul></div>}
         {!showText && <button id="Quizbutton" onClick={checkCorrect} disabled={submitted}>Submit</button>}
-        <button id="Quizbutton" onClick={submitExam}>Press to finish exam</button>
+        {button && <button id="Quizbutton" onClick={submitExam}>Press to finish exam</button>}
         {showText ? <Text /> : null}
-</div>
+    </div>
     )
 
 

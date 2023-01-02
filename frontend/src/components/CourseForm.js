@@ -18,7 +18,7 @@ const CourseForm = () => {
         e.preventDefault()
 
         const subtitle = {name : subtitlee , hours : (hours/2)}
-        const course = {title, subtitle, exercises, summary, subject, hours, price}
+        const course = {title, summary, subject, hours, price}
 
         if(!user)
         {
@@ -59,24 +59,6 @@ const CourseForm = () => {
                 type="text"
                 onChange={(e)=> SetTitle(e.target.value)}
                 value={title}
-            />
-            </div>
-
-            <div>
-            <label>Subtitle</label>
-            <input
-                type="text"
-                onChange={(e)=> SetSubtitle(e.target.value)}
-                value={subtitlee}
-            />
-            </div>
-
-            <div>
-            <label>Exercises</label>
-            <input
-                type="text"
-                onChange={(e)=> SetExercises(e.target.value)}
-                value={exercises}
             />
             </div>
 

@@ -29,6 +29,7 @@ export const useLogin = () => {
             dispatch({type:'LOGIN',payload:json})
 
             setIsLoading(false)
+                if(json.accepted == 1){
                  if(json.nav === "1")
                   navigate('/admin')
                  if(json.nav === "2")
@@ -36,7 +37,15 @@ export const useLogin = () => {
                  if(json.nav === "3")
                     navigate('/InTrainee')
                   if(json.nav === "4")
-                 navigate('/CorTrainee')
+                 navigate('/CorTrainee')}
+                 else{
+                    if(json.nav == "1")
+                    {
+                        navigate('/admin')
+                    }
+                    else
+                       navigate('/Policy')
+                 }
         }
     }
     return{login,isLoading,error}

@@ -7,6 +7,12 @@ var Subtitle = require('../models/subtitleModel')
 var Quiz = require ('../models/quizModel')
 var indTrainee= require('../models/IndividualTrainee')
 var Question = require('../models/questionModel')
+const Grades = require("../models/Grades")
+var reports= require('../models/reports')
+var admin = require('../models/administratorModel')
+var corTrainee= require('../models/corporateTraineeModel')
+
+const corporateTraineeModel = require("../models/corporateTraineeModel")
 
 
 const Search = async (req,res) =>
@@ -196,6 +202,20 @@ const viewExercises = async(req,res)=>
     res.status(200).json(courseEx[0].exercises)
 
 }
+const getGrade= async(req,res) =>
+{
+    const t = req.body.exerciseID
+    console.log(t)
+    const f = await Grades.findOne({StudentId:{$eq:req.user},QuizId:{$eq:t}})
+    res.status(200).json(f)
+}
+const getCorrectAnswers= async(req,res) =>
+{
+    const t = req.query.exerciseID
+    console.log(t)
+    const f = await Quiz.findById({_id:t}).populate('Questions')
+    res.status(200).json(f.Questions)
+}
 
 const viewQuestions = async(req,res)=>
 {
@@ -207,6 +227,92 @@ const viewQuestions = async(req,res)=>
     console.log(ques);
     res.status(200).json(ques[0].Questions)
 }
+const acceptPolicy = async(req,res)=>
+{
+    console.log(req.user)
+    const user = await indTrainee.findOne({_id:{$eq:req.user}},{_id:0,accepted:1})
+    const user1 = await corporateTraineeModel.findOne({_id:{$eq:req.user}},{_id:0,accepted:1})
+    const user2 = await Instructor.findOne({_id:{$eq:req.user}},{_id:0,accepted:1})
+    console.log(user)
+    console.log(user1)
+    console.log(user2)
+    if(user != null)
+    {
+        console.log("inf")
+        await indTrainee.updateOne({_id:{$eq:req.user}},{$set:{accepted:1}})
+    }
+    else if(user1 != null)
+    {
+        console.log("ind")
+        await corporateTraineeModel.updateOne({_id:{$eq:req.user}},{$set:{accepted:1}})
+    }
+    else if(user2 != null)
+    {
+        console.log("int")
+        await Instructor.updateOne({_id:{$eq:req.user}},{$set:{accepted:1}})
+    }
+    res.status(200).json("accepted")
+}
+
+const INreportCourse = async (req,res)=>
+{
+    var rep = new reports()
+    rep.type= req.body.Type
+    rep.details=req.body.Details
+    rep.userId=req.user
+    rep.username=req.body.Username
+    rep.course= req.body.CourseName
+    await reports.create(rep)
+    const repID= await reports.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    console.log(repID)
+    const admID= await indTrainee.findOne({_id:{$eq:req.user}},{_id:0,AdministratorID:1})
+    console.log(admID)
+    await admin.updateOne({_id:admID.AdministratorID},{$push:{reports:repID}})
+    await indTrainee.updateOne({_id:req.user},{$push:{reports:repID}})
+    res.status(200).json("f")
+
+
+}
+
+const CORreportCourse = async (req,res)=>
+{
+    var rep = new reports()
+    rep.type= req.body.Type
+    rep.details=req.body.Details
+    rep.userId=req.user
+    rep.username=req.body.Username
+    rep.course= req.body.CourseName
+    await reports.create(rep)
+    const repID= await reports.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    console.log(repID)
+    const admID= await corTrainee.findOne({_id:req.user},{_id:0,AdministratorID:1})
+    console.log(admID)
+    await admin.updateOne({_id:admID.AdministratorID},{$push:{reports:repID}})
+    await corTrainee.updateOne({_id:req.user},{$push:{reports:repID}})
+    res.status(200).json("f")
+
+
+}
+const INSreportCourse = async (req,res)=>
+{
+    var rep = new reports()
+    rep.type= req.body.Type
+    rep.details=req.body.Details
+    rep.userId=req.user
+    rep.username=req.body.Username
+    rep.course= req.body.CourseName
+    await reports.create(rep)
+    const repID= await reports.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    console.log(repID)
+    const admID= await Instructor.findOne({_id:{$eq:req.user}},{_id:0,AdministratorID:1})
+    console.log(admID)
+    await admin.updateOne({_id:admID.AdministratorID},{$push:{reports:repID}})
+    await Instructor.updateOne({_id:req.user},{$push:{reports:repID}})
+    res.status(200).json("f")
+
+
+
+}
 
 
 
@@ -214,4 +320,5 @@ const viewQuestions = async(req,res)=>
 
 
 
-module.exports = {filterPrice,filterSubjectRating,Search,viewCourses,viewCoursesCor,viewAllDetails,Link,getLink,viewSubtitles,addSubtitle,viewSubtitlesVid,viewExercises,viewQuestions}
+
+module.exports = {filterPrice,getGrade,acceptPolicy,getCorrectAnswers,filterSubjectRating,Search,viewCourses,viewCoursesCor,viewAllDetails,Link,getLink,viewSubtitles,addSubtitle,viewSubtitlesVid,viewExercises,viewQuestions,INSreportCourse,INreportCourse,CORreportCourse}

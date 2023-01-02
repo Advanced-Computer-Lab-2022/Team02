@@ -12,21 +12,38 @@ const Admin = () => {
     {
         navigate('/requests')
     }
+    function Reports()
+    {
+        navigate('/reports')
+    }
 
 
 
     return(
         <div className="home">
             <div className="courses">
-
+            <a onClick={Requests}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Incoming Requests
+                </a>
+                <a onClick={Reports}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Incoming Reports
+                </a>
             </div>
             <div>
             <InstructorForm/>
             <AdministratorForm/>
             <CorpTraineeForm/>
             <br></br>
-            <button id="filterbutton" onClick={Requests}>Incoming Requests</button>
             </div>
+
         </div>
 
     )

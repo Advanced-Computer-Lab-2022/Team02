@@ -14,10 +14,32 @@ const reportSchema = new Schema({
     },
     status:{
         type:String,
-
-    }, username:{
+        default:"Pending"
+    }, 
+    username:{
         type:String
+    },
+    userId:{
+        type:String
+    },
+    course:{
+        type:String
+    },
+    seeen:{
+        type:String,
+        default:"Unseen"
+    },
+    reply:{
+        type:String,
+    },
+    folowUp:{
+        type:String
+    },
+    answer:{
+        type:String
+
     }
+
 },{timestamps:true})
 
 module.exports=mongoose.model('reports',reportSchema)

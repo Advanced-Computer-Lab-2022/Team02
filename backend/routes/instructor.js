@@ -23,12 +23,16 @@ router.get('/checkAccepted',Instruct.checkAccepted)
 router.post('/Accept',Instruct.acceptContract)
 router.post('/instructorLink',Course.Link)
 router.get('/getLink',Course.getLink)
+router.get('/salary',Instruct.getSalary)
 router.post('/editBio',Instruct.editBio)
 router.post('/editEmail',Instruct.editEmail)
 router.post('/changePassword',Instruct.changePassword)
-router.post('/createQuiz',Instruct.CreateQuiz)
+router.get('/createQuiz',Instruct.CreateQuiz)
 router.post('/createQuestion',Instruct.CreateQuestion)
 router.post('/allUsers',Instruct.getallusers);
 router.post('/addSubtitle',Course.addSubtitle)
+router.post('/acceptPolicy',Course.acceptPolicy)
+router.post('/reportCourse',Course.INSreportCourse)
+router.get('/myPrevReports',Instruct.InsViewMyReports)
 
 module.exports=router

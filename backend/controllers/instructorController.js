@@ -162,8 +162,9 @@ async function CreateQuiz(req,res)
     const quizz = new Quiz()
     quizz.CourseId=req.query.courseId
     await Quiz.create(quizz)
-    const quizId = await Quiz.find({},{_id:1}).sort({_id:-1}).limit(1).select('_id')._id
-    await Course.updateOne({_id:quizz.CourseId},{$push:{exercises:quizId}})
+    const quizId = await Quiz.findOne({},{_id:1}).sort({_id:-1}).limit(1).select('_id')
+    console.log(quizId)
+    await Course.updateOne({_id:req.query.courseId},{$push:{exercises:quizId}})
     res.send('added')
 
 
@@ -215,4 +216,27 @@ const acceptContract = async(req,res) =>
     res.status(200).json("Contract accepted")
 }
 
-module.exports={fetchAccount,checkAccepted,acceptContract,getallusers,addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion}
+const getSalary = async(req,res) =>
+{
+    const ID = req.user
+    var sal = []
+    const courses = await Course.find({instructorID:{ $eq: ID}},{title:1,rating:1,price:1,reviews:1}) 
+    for (let index = 0; index < courses.length; index++) {
+        const element = courses[index];
+        sal.push(element.price * 0.95)
+    }
+    const g =sal.reduce((a, b) => (a + b))
+    res.status(200).json(g); 
+}
+const InsViewMyReports = async (req,res)=>
+{
+    const ID = req.user
+    const g= await Instructor.findOne({_id:ID}).populate('reports')
+    if(!InsViewMyReports)
+    {
+        res.status(404).json({error:'No Courses available'})
+    }
+    res.status(200).json(g.reports)
+}
+
+module.exports={fetchAccount,checkAccepted,getSalary,acceptContract,getallusers,addCourse,viewCourses,filterCourses,InstructSearch,addSub,addDiscount,getMyRating,getMyReviews,editBio,editEmail,changePassword,CreateQuiz,CreateQuestion,InsViewMyReports}

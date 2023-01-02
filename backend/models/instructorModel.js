@@ -34,6 +34,14 @@ const instructorSchema = new Schema({
     AdministratorID:{
         type:mongoose.Types.ObjectId,
         ref:'administrators'
+    },
+    accepted:{
+      type:Number,
+      default:0
+    },
+    salary:{
+      type:Number,
+      default:0
     }
 
 

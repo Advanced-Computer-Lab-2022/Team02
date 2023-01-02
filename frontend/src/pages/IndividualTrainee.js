@@ -55,6 +55,15 @@ const Courses = () => {
             setCourse(Courses);
         }
     }
+    function Report(){
+        navigate('/IndReport')
+    }
+    function MyReports(){
+        navigate('/IndMyReports')
+    }
+    function coursess(){
+        navigate('/IndMyCourses')
+    }
     const Filter2 = async(e) => {
         console.log(price);
         e.preventDefault();
@@ -108,6 +117,27 @@ const Courses = () => {
                     <span></span>
                     <span></span>
                     Edit Account
+                </a>
+                <a onClick={MyReports}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    View Previous Reports
+            </a>
+            <a onClick={Report}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Report a Problem
+                </a>
+                <a onClick={coursess}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    View My Courses
                 </a>
             <br></br>
             <br></br>

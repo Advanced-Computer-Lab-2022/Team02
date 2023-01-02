@@ -44,6 +44,21 @@ const IndLogin = async(req, res , next) => {
     next();
 }
 
+const GuestLogin = async(req, res , next) => {
+    const token = req.headers.authorization.split(" ")[1];
+        const {_id} = jwt.verify(token , 'supersecret');
+        const f = await Instructor.findOne({_id}).select('_id')
+        const f1 = await corTrainee.findOne({_id}).select('_id')
+        const f2 = await indTrainee.findOne({_id}).select('_id')
+        if(f!=null)
+            req.user=f._id
+        else if(f1!=null)
+            req.user=f1._id
+        else if(f2!=null)
+            req.user=f2._id
+    next();
+}
+
 const CorLogin = async(req, res , next) => {
     const {authorization} = req.headers
     if(!authorization)
@@ -84,4 +99,4 @@ const adminLogin = async(req, res , next) => {
     }
     next();
 }
-module.exports = {InstructorLogin,adminLogin,CorLogin,IndLogin}
+module.exports = {InstructorLogin,GuestLogin,adminLogin,CorLogin,IndLogin}

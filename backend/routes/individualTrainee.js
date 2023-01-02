@@ -26,9 +26,20 @@ router.post('/forgotPass',Trainee.forgotPassword)
 router.get('/reset-password/:id/:token',Trainee.resetPass)
 router.post('/reset-password/:id/:token',Trainee.resetPassw)
 router.get('/exercises',Course.viewExercises)
+router.get('/correctAnswer',Course.getCorrectAnswers)
+router.get('/getProg',Trainee.getProgression)
+router.post('/grade',Course.getGrade)
 router.get('/getQuestions',Course.viewQuestions)
 router.post('/regCourse',Trainee.regCourse)
 router.post('/setGrade',Trainee.quizGrade)
+router.post('/startQuiz',Trainee.startQuiz)
+router.post('/acceptPolicy',Course.acceptPolicy)
+router.get('/getMyCoursesDetails',Trainee.IndCourses)
+router.post('/reportCourse',Course.INreportCourse)
+router.get('/myPrevReports',Trainee.IndViewMyReports)
+router.get('/getMyCourses',Trainee.indViewMyCourses)
+router.post('/buyCourse',Trainee.buyCourse)
+
 
 
 module.exports = router
